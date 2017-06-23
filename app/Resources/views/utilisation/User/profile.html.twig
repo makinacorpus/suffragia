@@ -1,0 +1,59 @@
+
+{% extends "base.html.twig" %}
+
+{%  block contenu %}
+
+
+    <section>
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0" style="padding: 10px">
+            <div class="input-group-addon"><div class="fa fa-lock"></div></div>
+            <a style="color: white" href="{{ path('fos_user_change_password') }}"><button class="btn btn-warning">Changer son mot de passe</button></a>
+        </div>
+
+
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0" style="padding: 10px">
+            <div class="input-group-addon"><div class="fa fa-user"></div></div>
+            <a style="color: white" href="{{ path('fos_user_profile_edit') }}"><button class="btn btn-info">Changer l'adresse e-mail et le nom d'utilisateur</button></a>
+        </div>
+
+        <table class="table table-bordered">
+            <tr>
+                <td> <div class="fa fa-user"></div> Nom</td>
+                <td>{{ app.user.username }}</td>
+            </tr>
+            <tr>
+                <td><div class="fa fa-envelope"></div> Mail</td>
+                <td>{{ app.user.email }}</td>
+            </tr>
+
+            <tr>
+                <td>Référent</td>
+                {% if  app.user.owner == null %}
+                    <td>personne</td>
+                {% else %}
+                 <td>{{ app.user.owner.name | join(',') }}</td>
+                {% endif %}
+            </tr>
+
+            <tr>
+                <td>Mairie(s)</td>
+                <td>{{ app.user.townHalls | join(',') }}</td>
+            </tr>
+
+            <tr>
+                <td>QG(s)</td>
+                <td>{{ app.user.qgs | join(',') }}</td>
+            </tr>
+
+            <tr>
+                <td>Bureau(x)</td>
+                <td>{{ app.user.desks | join(',') }}</td>
+            </tr>
+        </table>
+
+
+
+    </section>
+
+
+{% endblock %}

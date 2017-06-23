@@ -1,0 +1,166 @@
+<br>
+<div id="viewResult" class="tableProgressBar container viewResult" >
+    <!--<h2 class="text-center">Scroll down the page a bit</h2><br><br>
+
+     -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+    <div class="row">
+        <div class="col-md-6" id="rightPanelProgress">
+
+        </div>
+
+        <div class="col-md-6" id="leftPanelProgress">
+
+        </div>
+
+    </div>
+
+    <script>
+
+
+
+        var getJSON = function(url, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.responseType = 'json';
+            xhr.onload = function() {
+                var status = xhr.status;
+                if (status == 200) {
+                    callback(null, xhr.response);
+                } else {
+                    callback(status);
+                }
+            };
+            xhr.send();
+        };
+
+
+
+        function toArray(json) {
+            var parsed = JSON.parse(json,true);
+            var arr = [];
+            for(var x in parsed){
+                arr.push(parsed[x]);
+            }
+            return arr;
+        }
+
+
+
+
+
+        function fillDiv(div,candidat){
+            var bar1 = document.createElement("div");
+            bar ='<p id="infoCandidatProgress'+candidat[5]+'">'+candidat[0]+","+candidat[3]+' votes'+'</p><div class="progress"><div id="infoCandidatProgressDiv'+candidat[5]+'" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="'+candidat[4]+'" aria-valuemin="0" aria-valuemax="100" style="width:40%">'+candidat[4]+'% </div></div>'
+            bar1.innerHTML = bar;
+            document.getElementById(div).appendChild(bar1)
+        }
+
+        function fillDivBlanc(totalBlanc,totalBlancPercentage){
+            if(totalBlanc ==0){
+                return;
+            }
+            var bar1 = document.createElement("div");
+            bar ='<p id="infoBlancProgress">'+"Blanc,"+totalBlanc+' votes'+'</p><div class="progress"><div id="infoBlancProgressDiv" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="'+totalBlancPercentage+'" aria-valuemin="0" aria-valuemax="100" style="width:40%">'+totalBlancPercentage+'% </div></div>'
+            bar1.innerHTML = bar;
+            document.getElementById(div).appendChild(bar1)
+        }
+
+
+        function fillDivNul(totalNul,totalNulPercentage){
+            if(totalNul ==0){
+                return;
+            }
+            var bar1 = document.createElement("div");
+            bar ='<p id="infoNulProgress">'+"Nul,"+totalNul+' votes'+'</p><div class="progress"><div id="infoNulProgressDiv" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="'+totalNulPercentage+'" aria-valuemin="0" aria-valuemax="100" style="width:40%">'+totalNulPercentage+'% </div></div>'
+            bar1.innerHTML = bar;
+            document.getElementById(div).appendChild(bar1)
+        }
+
+
+        function fillDivNul(totalNul,totalNukPercentage){
+            if(totalNul ==0){
+                return;
+            }
+            var bar1 = document.createElement("div");
+            bar ='<p id="infoNulProgress'+candidat[5]+'">'+candidat[0]+","+candidat[3]+' votes'+'</p><div class="progress"><div id="infoCandidatProgressDiv'+candidat[5]+'" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="'+candidat[4]+'" aria-valuemin="0" aria-valuemax="100" style="width:40%">'+candidat[4]+'% </div></div>'
+            bar1.innerHTML = bar;
+            document.getElementById(div).appendChild(bar1)
+        }
+
+
+        function refreshLine(candidat) {
+            document.getElementById('infoCandidatProgress'+candidat[5]).innerText = candidat[0]+","+candidat[3]+' votes';
+            document.getElementById('infoCandidatProgressDiv'+candidat[5]).innerText = candidat[4]+'%';
+            document.getElementById('infoCandidatProgressDiv'+candidat[5]).setAttribute('aria-valuenow',candidat[4]);
+
+        }
+        function refreshLines() {
+
+            urlJson ='{{ path('detailEM_JSON_BRUT',{"election":election.id,"townHall": townHall.id}) }}';
+            getJSON(urlJson,
+                function(err, data) {
+                    if (err != null) {
+                        alert('Something went wrong: ' + err);
+                    } else {
+                        json = data;
+                        listCandidates = json[0],listDesks = json[1], generalInfos = json[2];
+
+                        jQuery.each(listCandidates, function(i, val) {
+                            refreshLine(val);
+                        });
+
+
+                    }
+                });
+
+        }
+
+
+
+        function load() {
+            document.getElementById("rightPanelProgress").innerHTML="";
+            urlJson ='{{ path('detailEM_JSON_BRUT',{"election":election.id,"townHall": townHall.id}) }}';
+            getJSON(urlJson,
+                function(err, data) {
+                    if (err != null) {
+                        alert('Something went wrong: ' + err);
+                    } else {
+                        json = data;
+                        listCandidates = json[0],listDesks = json[1], generalInfos = json[2];
+                        bool = true;
+                        jQuery.each(listCandidates, function(i, val) {
+                            if(bool == true) {
+                                fillDiv("rightPanelProgress", val);
+                            }
+                            else{
+                                fillDiv("leftPanelProgress", val);
+                            }
+                            bool = !bool;
+                        });
+                        fillDivNul(json[2].totalNul,json[2].totalNulPercentage);
+                        fillDivBlanc(json[2].totalBlanc,json[2].totalBlancPercentage);
+
+                        setInterval(function () {
+                          refreshLines();
+                        },3000)
+                    }
+                });
+        }
+
+
+
+   load();
+
+
+
+
+    </script>
+
+</div>
+

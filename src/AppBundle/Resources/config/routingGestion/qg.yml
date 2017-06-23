@@ -1,0 +1,24 @@
+qg_index:
+    path:     /
+    defaults: { _controller: "AppBundle:gestion/Qg:index" }
+    methods:  GET
+
+qg_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:gestion/Qg:show" }
+    methods:  GET
+
+qg_new:
+    path:     /new/
+    defaults: { _controller: "AppBundle:gestion/Qg:new" }
+    methods:  [GET, POST]
+
+qg_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:gestion/Qg:edit" }
+    methods:  [GET, POST]
+
+qg_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:gestion/Qg:delete" }
+    methods:  DELETE

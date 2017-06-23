@@ -1,0 +1,12 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: 42
+    database_name: myBD
+    database_user: user
+    database_password: myPass
+    mailer_transport: mail
+    mailer_host: auth.smtp.1and1.fr
+    mailer_user: contact@alvanit.fr
+    mailer_password: myPass
+    secret: 42

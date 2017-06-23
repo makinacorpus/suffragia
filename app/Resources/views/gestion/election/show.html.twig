@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Election</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Finished</th>
+                <td>{% if election.finished %}Yes{% else %}No{% endif %}</td>
+            </tr>
+
+            <tr>
+                <th>Name</th>
+                <td>{{ election.name }}</td>
+            </tr>
+            <tr>
+                <th>Mairie</th>
+                <td>{{ election.townHalls | join(',') }}</td>
+            </tr>
+            <tr>
+                <th>candidats</th>
+                <td>{{ election.candidats | join(',') }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ election.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('election_index') }}">Revenir à la liste</a>
+        </li>
+        <li>
+            <a href="{{ path('election_edit', { 'id': election.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

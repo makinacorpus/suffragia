@@ -1,0 +1,15 @@
+
+<div id="modeAffichage2" class="modeAffichage2">
+
+{% for user in listeCandidat %}
+
+    {% if user.blanc %}
+        <button type="button" data-candidat="{{ user.id }}" class="itemButtonCandidate btn btn-lg btn-info ripplelink vote_plus{{ loop.index -1}} espacement2 nbVoteCandidat{{ user.id }}"  data-mode="0" data-nbVote="{{ user.data }}">{{ user.nom }}| <span id="buttonPlusCandidat{{ user.id }}" class="nbVoteCandidat{{ user.id }}" data-nbVote="{{ user.data }}">{{ user.data }}</span></button>
+    {% elseif user.nul %}
+        <button type="button" data-candidat="{{ user.id }}" class="itemButtonCandidate btn btn-lg btn-warning ripplelink vote_plus{{ loop.index -1}} espacement2 nbVoteCandidat{{ user.id }}"  data-mode="0" data-nbVote="{{ user.data }}">{{ user.nom }}|      <span id="buttonPlusCandidat{{ user.id }}" class="nbVoteCandidat{{ user.id }}" data-nbVote="{{ user.data +3}}">{{ user.data }}</span></button>
+    {% else %}
+        <button type="button" data-candidat="{{ user.id }}" class="itemButtonCandidate btn btn-lg btn-primary ripplelink vote_plus{{ loop.index -1}} espacement2 nbVoteCandidat{{ user.id }}" data-mode="0" data-nbVote="{{ user.data }}" >{{ user.nom }}|      <span id="buttonPlusCandidat{{ user.id }}" class="nbVoteCandidat{{ user.id }}" data-nbVote="{{ user.data }}">{{ user.data }}</span></button>
+    {% endif %}
+{% endfor %}
+
+</div>

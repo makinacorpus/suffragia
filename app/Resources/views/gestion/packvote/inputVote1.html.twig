@@ -1,0 +1,40 @@
+
+
+<table class="table table-striped modeAffichage1" id="modeAffichage1">
+    <thead id="threadModeAffichage1">
+    <tr>
+    <th>nom</th>
+    {% for user in listeCandidat %}
+        <td class="nbVoteCandidat{{ user.id }}" data-mode="0" data-nbVote="{{ user.data }}"><strong>{{ user.nom }}</strong></td>
+    {% endfor %}
+    </tr>
+    </thead>
+    <tbody id="tbodyModeAffichage1">
+    <tr class="nomCandidat">
+        <th>Nombre de vote</th>
+        {% for user in listeCandidat %}
+            <td data-nbVote="{{ user.data }}" class="nbVoteCandidat{{ user.id }} td">{{ user.data }}</td>
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Vote +</th>
+        {% for user in listeCandidat %}
+            {% if user.blanc %}
+                <td  class="nbVoteCandidat{{ user.id }}" data-mode="0"  data-nbVote="{{ user.data }}"><a class="vote_plus{{ loop.index -1}} ripplelink" data-candidat="{{user.id}}"><h2 class="btn btn-info">+Vote</h2></a></td>
+            {% elseif user.nul %}
+                <td class="nbVoteCandidat{{ user.id }}" data-mode="0" data-nbVote="{{ user.data }}"><a class="vote_plus{{ loop.index -1}} ripplelink" data-candidat="{{user.id}}"><h2 class="btn btn-warning">+Vote</h2></a></td>
+
+            {% else %}
+                <td class="nbVoteCandidat{{ user.id }}" data-mode="0" data-nbVote="{{ user.data }}"><a class="vote_plus{{ loop.index -1}} ripplelink" data-candidat="{{user.id}}"><h2 class="btn btn-primary">+Vote</h2></a></td>
+            {% endif %}
+
+        {% endfor %}
+    </tr>
+    <tr>
+        <th>Vote -</th>
+        {% for user in listeCandidat %}
+            <td class="nbVoteCandidat{{ user.id }}" data-mode="0" ><a class="vote_moins{{ loop.index -1}}" data-candidat="{{user.id}}"><h2 class="btn btn-danger">-Vote</h2></a></td>
+        {% endfor %}
+    </tr>
+</table>

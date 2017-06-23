@@ -1,0 +1,17 @@
+
+packvote_delete_by_desk:
+    path:     /deleteAll/desk/{desk}/election/{election}
+    defaults: { _controller: "AppBundle:utilisation/PackVote:remiseZeroPackVote" }
+
+desk_directVote:
+    path:     /fillDirect/desk/{desk}/number/{number}/candidat/{candidat}
+    defaults: { _controller: "AppBundle:utilisation/PackVote:voteDirect" }
+
+desk_getVoteCandidatDesk:
+    path:     /fillDirect/desk/{desk}/candidat/{candidat}
+    defaults: { _controller: "AppBundle:utilisation/PackVote:getNbVotesInDeskForCandidate" }
+
+packvote_new_election:
+    path:     /new/{desk}/election/{election}/mode/{mode}
+    defaults: { _controller: "AppBundle:utilisation/PackVote:newElections" }
+    methods:  [GET, POST]

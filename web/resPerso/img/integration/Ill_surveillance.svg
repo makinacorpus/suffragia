@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="140px" height="140px" viewBox="0 0 140 140" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <title>Ill_surveillance</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="70" cy="71" r="70"></circle>
+        <linearGradient x1="31.525431%" y1="17.1572843%" x2="56.9886513%" y2="57.2519084%" id="linearGradient-3">
+            <stop stop-color="#3E3D2A" stop-opacity="0.3" offset="0%"></stop>
+            <stop stop-color="#3E3D2A" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="93.1253816%" y1="67.2385255%" x2="4.39400512%" y2="71.2896436%" id="linearGradient-4">
+            <stop stop-color="#9D9587" offset="0%"></stop>
+            <stop stop-color="#D7CBB9" offset="36.9473114%"></stop>
+            <stop stop-color="#46423B" offset="99.9123087%"></stop>
+        </linearGradient>
+        <linearGradient x1="93.1253816%" y1="67.2385255%" x2="5.16903904%" y2="71.2542587%" id="linearGradient-5">
+            <stop stop-color="#CE5134" offset="0%"></stop>
+            <stop stop-color="#F77A5F" offset="36.9473114%"></stop>
+            <stop stop-color="#42150C" offset="99.9123087%"></stop>
+        </linearGradient>
+        <radialGradient cx="26.3418555%" cy="70.4607768%" fx="26.3418555%" fy="70.4607768%" r="71.0763835%" gradientTransform="translate(0.263419,0.704608),scale(0.708921,1.000000),rotate(5.017840),scale(1.000000,0.702214),translate(-0.263419,-0.704608)" id="radialGradient-6">
+            <stop stop-color="#6D675D" offset="0%"></stop>
+            <stop stop-color="#A09789" offset="48.0335548%"></stop>
+            <stop stop-color="#D7CBB9" offset="100%"></stop>
+        </radialGradient>
+        <radialGradient cx="50%" cy="50%" fx="50%" fy="50%" r="50%" gradientTransform="translate(0.500000,0.500000),scale(0.691033,1.000000),rotate(180.000000),scale(1.000000,0.718472),translate(-0.500000,-0.500000)" id="radialGradient-7">
+            <stop stop-color="#DFDECE" offset="0%"></stop>
+            <stop stop-color="#B6AC9D" offset="36.9180485%"></stop>
+            <stop stop-color="#46423B" offset="100%"></stop>
+        </radialGradient>
+        <radialGradient cx="44.5494768%" cy="58.0542475%" fx="44.5494768%" fy="58.0542475%" r="60.4629951%" gradientTransform="translate(0.445495,0.580542),scale(0.691033,1.000000),rotate(175.345804),scale(1.000000,0.718472),translate(-0.445495,-0.580542)" id="radialGradient-8">
+            <stop stop-color="#D0C5B3" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#E2DBD2" stop-opacity="0" offset="76.5764509%"></stop>
+            <stop stop-color="#E8E3DC" stop-opacity="0.4" offset="100%"></stop>
+        </radialGradient>
+        <radialGradient cx="50%" cy="46.5020555%" fx="50%" fy="46.5020555%" r="60.4629951%" gradientTransform="translate(0.500000,0.465021),scale(0.691033,1.000000),rotate(175.345804),scale(1.000000,0.718472),translate(-0.500000,-0.465021)" id="radialGradient-9">
+            <stop stop-color="#D0C5B3" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#E2DBD2" stop-opacity="0" offset="76.5764509%"></stop>
+            <stop stop-color="#E8E3DC" stop-opacity="0.2" offset="100%"></stop>
+        </radialGradient>
+        <linearGradient x1="54.7743893%" y1="46.241906%" x2="62.0745584%" y2="56.9710883%" id="linearGradient-10">
+            <stop stop-color="#343027" stop-opacity="0.2" offset="0%"></stop>
+            <stop stop-color="#333027" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Ill_surveillance">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Mask" fill="#E2E1D0" xlink:href="#path-1"></use>
+            <polygon id="Rectangle-4-Copy-3" fill="url(#linearGradient-3)" mask="url(#mask-2)" points="9.43071936 87.7562564 129.906869 52.908088 196.875117 136.800143 79.8984375 176.998047"></polygon>
+            <g id="téléscope" mask="url(#mask-2)">
+                <g transform="translate(78.136790, 70.304035) rotate(-45.000000) translate(-78.136790, -70.304035) translate(13.124547, 21.727919)">
+                    <path d="M23.4164291,24.0041172 C22.8530355,13.5050419 22.5157173,7.96134715 22.4044745,7.373033 C21.8340241,4.35617116 18.6913356,2.01155139 14.3078589,2.01155139 C9.92438227,2.01155139 6.81386421,4.50693015 6.25965157,7.52485597 C6.18302251,7.94213411 6.12658008,13.3258546 6.09032427,23.6760174 L23.4164291,24.0041172 Z" id="Oval-5-Copy-3" fill="url(#linearGradient-4)" transform="translate(14.753377, 13.007834) rotate(-57.000000) translate(-14.753377, -13.007834) "></path>
+                    <path d="M50.9878351,44.2886381 C50.0488457,26.7901792 49.4866487,17.550688 49.3012441,16.5701644 C48.3504934,11.5420613 43.1126792,7.63436173 35.8068848,7.63436173 C28.5010903,7.63436173 23.3168936,11.7933263 22.3932058,16.8232027 C22.2654907,17.5186663 22.17142,26.4915337 22.1109937,43.741805 L50.9878351,44.2886381 Z" id="Oval-5-Copy-3" fill="url(#linearGradient-4)" transform="translate(36.549414, 25.961500) rotate(-57.000000) translate(-36.549414, -25.961500) "></path>
+                    <path d="M90.3365735,66.5754709 C88.501858,47.9964661 87.4299964,37.8898607 87.1209887,36.2556546 C85.5364041,27.8754823 76.8067133,21.3626493 64.6303885,21.3626493 C52.4540638,21.3626493 43.8137353,28.2942573 42.2742557,36.6773851 C42.0613972,37.8364911 42.0394791,47.4987235 42.2085015,65.6640823 L90.3365735,66.5754709 Z" id="Oval-5-Copy-3" fill="url(#linearGradient-5)" transform="translate(66.216430, 43.969060) rotate(-57.000000) translate(-66.216430, -43.969060) "></path>
+                    <path d="M114.800237,70.176672 C115.129602,67.0118944 115.101155,64.4081268 114.714895,62.3653693 C112.734165,51.8901539 101.822051,43.7491126 86.6016452,43.7491126 C71.3812393,43.7491126 60.5808287,52.4136227 58.6564791,62.8925324 C58.390406,64.3414149 58.345046,65.8130137 58.5203993,67.3073289 L114.800237,70.176672 Z" id="Oval-5-Copy" fill="url(#linearGradient-4)" transform="translate(86.721767, 56.962892) rotate(-57.000000) translate(-86.721767, -56.962892) "></path>
+                    <path d="M96.6753677,83.2207149 C112.241537,83.2207149 124.860411,74.5006603 124.860411,63.7439279 C124.860411,52.9871955 112.207834,43.2588043 96.6416647,43.2588043 C81.0754953,43.2588043 68.4903247,52.9871955 68.4903247,63.7439279 C68.4903247,74.5006603 81.1091983,83.2207149 96.6753677,83.2207149 Z" id="Oval-5" fill="url(#radialGradient-6)" transform="translate(96.675368, 63.239760) rotate(-57.000000) translate(-96.675368, -63.239760) "></path>
+                    <ellipse id="Oval-5" fill="url(#radialGradient-7)" transform="translate(97.116460, 63.514349) rotate(-57.000000) translate(-97.116460, -63.514349) " cx="97.1164598" cy="63.5143493" rx="23.6268016" ry="16.326893"></ellipse>
+                    <ellipse id="Oval-5" fill="url(#radialGradient-8)" transform="translate(97.842720, 62.631023) rotate(-57.000000) translate(-97.842720, -62.631023) " cx="97.8427203" cy="62.6310233" rx="17.8591659" ry="12.341268"></ellipse>
+                    <ellipse id="Oval-5" fill="url(#radialGradient-9)" transform="translate(97.766435, 63.317524) rotate(-57.000000) translate(-97.766435, -63.317524) " cx="97.7664347" cy="63.3175237" rx="20.9862286" ry="14.5021707"></ellipse>
+                    <path d="M81.7536951,74.7471517 C87.324078,76.1522624 93.6124894,74.5215183 100.618929,69.8549194 C107.62537,65.1883206 112.093891,58.7184087 114.024493,50.4451836 C116.279455,61.7418964 112.195225,71.2551185 101.771801,78.9848497 C96.6874566,82.7552633 92.0992601,82.8315507 87.7184333,81.3845893 C84.9606912,80.4737232 82.9724451,78.261244 81.7536951,74.7471517 Z" id="Path-3" fill="url(#linearGradient-10)"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

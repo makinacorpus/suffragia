@@ -1,0 +1,36 @@
+visiteur_index:
+    path:     /
+    defaults: { _controller: "AppBundle:utilisation/VisiteurR:index" }
+
+visiteur_indexMsg:
+    path:     /msg/{msg}
+    defaults: { _controller: "AppBundle:utilisation/VisiteurR:index" }
+
+
+visiteur_indexSelection:
+    path:     /selection/townHall/{townHall}/election/{election}
+    defaults: { _controller: "AppBundle:utilisation/VisiteurR:indexSelection" }
+
+
+visiteur_showVoteDetail:
+  path:     /showVoteDetail/{townHall}/election/{election}/mode/{mode}
+  defaults: { _controller: "AppBundle:utilisation/VisiteurR:showResultatDetail" }
+  methods:  GET
+
+
+visiteur_showParticipation:
+  path:     /showParticipation/{townHall}/election/{election}/mode/{mode}
+
+  defaults: { _controller: "AppBundle:utilisation/VisiteurR:showParticipationVote" }
+  methods:  GET
+
+
+visiteur_denied:
+  path:     /denied
+  defaults: { _controller: "AppBundle:utilisation/VisiteurR:denied" }
+  methods:  GET
+
+utilisation_packhoraire_voirgraph:
+        path:     /voirgraph/townHall/{townHall}/election/{election}/mode/{mode}
+        defaults: { _controller: "AppBundle:utilisation/VisiteurR:showParticipationVote" }
+        methods:  [GET, POST]

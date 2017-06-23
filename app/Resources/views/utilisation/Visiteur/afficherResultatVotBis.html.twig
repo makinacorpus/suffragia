@@ -1,0 +1,176 @@
+
+{% extends 'base.html.twig' %}
+
+{% block head %}
+    <link href="{{ asset('resPerso/css/progressbar.css')}}" rel="stylesheet" type="text/css">
+
+{% endblock %}
+
+{% block body %}
+
+    {% set authorized = false %}
+    {%  if app.user != null %}
+        {%  if app.user.roles("ROLE_BUREAU","ROLE_ADMIN","ROLE_MAIRIE","ROLE_QG") %}
+            {% set authorized = true %}
+        {% endif %}
+    {% endif %}
+
+    {% if detailEM.state | lower =="public" or detailEM.state | lower =="terminée" %}
+        {% set authorized = true %}
+    {% endif %}
+
+
+    {%  if authorized == true %}
+
+        {% set somme =0 %}
+
+        {% set sommeMeneur =0 %}
+        {% set meneur = null %}
+        {% set tmp =0 %}
+
+        {% for candidat in candidats %}
+            {% set tmp =0 %}
+            {% for vote in votes %}
+                {% if vote.candidat.id == candidat.id%}
+                    {% set tmp = tmp + vote.nbVotes %}
+                {% endif %}
+            {% endfor %}
+
+            {% if tmp >= sommeMeneur and not candidat.nul and not candidat.blanc %}
+
+                {% set meneur = candidat %}
+                {% set sommeMeneur = tmp %}
+            {% endif %}
+        {% endfor %}
+
+
+
+        <div class="table-title">
+            <h3>Tableau des votes pour l'élection {{ election }}</h3>
+            <h3>Mairie {{ townHall }}</h3>
+            <div class="btn-group">
+                <button type="button" class="form-control btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Type d'affichage
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : 1 } ) }}">Mode texte</a></li>
+                    <li><a href="{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : 2 } ) }}">Mode texte detaillé</a></li>
+                    <li><a href="{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : 3 } ) }}">Graph</a></li>
+                    <li><a href="{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : 4 } ) }}">Lignes</a></li>
+                    <li><a href="{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : 5 } ) }}">Donut</a></li>
+                </ul>
+            </div>
+
+            <div id="chart"></div>
+            {% include ':utilisation/Visiteur:affichageGraph.html.twig' %}
+            {% include ':utilisation/Visiteur:affichageDonut.html.twig' %}
+            {% include ':utilisation/Visiteur:afficherProgress.html.twig'%}
+            {% include ':utilisation/Visiteur:affichageTextMin.html.twig' %}
+            {% include ':utilisation/Visiteur:affichageTextMax.html.twig' %}
+            {% include ':utilisation/Visiteur:affichageMap.html.twig' %}
+
+        </div>
+
+        <script>
+
+            {% if mode is defined %}
+            var numMode={{ mode }};
+            $(".tableMin").hide();
+            $(".graph").hide();
+            $("#chart").hide();
+
+            $(".tableMax").hide();
+            $(".donut").hide();
+            $(".tableProgressBar").hide();
+
+            if(numMode ==1){
+                $(".tableMin").show();
+            }
+            if(numMode ==2){
+                $(".tableMax").show();
+            }
+            if(numMode ==3){
+                $("#chart").show();
+                $(".graph").show();
+                showGraph();
+
+            }
+            if(numMode ==4){
+                $(".tableProgressBar").show();
+            }
+            if(numMode ==5){
+                $("#chart").show();
+                $(".donut").show();
+                showDonut();
+            }
+            {% endif %}
+
+
+            function refresh()
+            {
+
+                var route= '{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : "mode_id" } ) }}';
+                route = route.replace("mode_id", numMode);
+                //var divMin = $(document).find("tableMin").html;
+
+                $.ajax({
+
+                    url : route,
+
+                    type : 'GET',
+
+                    dataType : 'html',
+
+                    success : function(code_html, statut){ // success est toujours en place, bien sûr !
+                        $(document).find('tableMin').html = $('#tableMin').html($(code_html).find('#tableMin').html());
+                        $(document).find('tableMax').html = $('#tableMax').html($(code_html).find('#tableMax').html());
+                        $(document).find('graph').html = $('#graph').html($(code_html).find('#graph').html());
+                        $(document).find('tableProgressBar').html = $('#tableProgressBar').html($(code_html).find('#tableProgressBar').html());
+
+
+                        // javascript:document.open('text/html');document.write(code_html);document.close();
+                    },
+                });
+            }
+
+
+        </script>
+        <script>
+            setInterval(refresh, 6000)    </script>
+        <p>site : {{absolute_url('/')}}</p>
+
+    {% else %}
+        <h1>Les résultats ne sont pas encore disponibles pour le public</h1>
+    {% endif %}
+    <!--
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.1.135/jspdf.min.js"></script>
+    <script type="text/javascript" src="http://cdn.uriit.ru/jsPDF/libs/adler32cs.js/adler32cs.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2014-11-29/FileSaver.min.js
+"></script>
+    <script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.addimage.js"></script>
+    <script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.standard_fonts_metrics.js"></script>
+    <script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.split_text_to_size.js"></script>
+    <script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.from_html.js"></script>
+    <a id="exportPdf">Exporter cette page en pdf</a>
+
+    <script>
+    $(function () {
+
+        var specialElementHandlers = {
+            '#exportPdf': function (element,renderer) {
+                return true;
+            }
+        };
+        $('#exportPdf').click(function () {
+            var doc = new jsPDF();
+            doc.fromHTML($('tableMax').html(), 15, 15, {
+                'width': 170,'elementHandlers': specialElementHandlers
+            });
+            doc.save('sample-file.pdf');
+        });
+    });
+
+</script>
+-->
+
+{% endblock %}

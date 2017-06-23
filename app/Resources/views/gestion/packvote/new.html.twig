@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+{% block head %}
+    <link href="{{ asset('resPerso/css/inputAjax.css')}}" rel="stylesheet">
+    <link href="{{ asset('resPerso/css/espacement.css')}}" rel="stylesheet">
+    <link href="{{ asset('resPerso/css/border.css')}}" rel="stylesheet">
+    <link href="{{ asset('resPerso/css/check.css')}}" rel="stylesheet">
+
+
+    <style>
+        .run-animation {
+            color: #E43;
+            transform-origin: 50% 0;
+            animation: vibrate 0.1s linear 0s 3;
+        }
+
+        @keyframes vibrate
+        {
+            0%   {transform: rotate(10deg)}
+            25%  {transform: rotate(-10deg)}
+            50%  {transform: rotate(0)}
+            75%  {transform: rotate(10deg)}
+            100% {transform: rotate(0)}
+        }
+
+    </style>
+{% endblock %}
+
+{% block contenu %}
+{% if election != null and desk != null %}
+
+
+
+    <h2 style="text-align: center">Pour l'élection <span id="name_election">{{ election }}</span> avec le bureau <span id="desk_name">{{ desk.nom }}</span></h2>
+         {% if nbVoteTotal is defined %}
+             {% include ':gestion/packvote:newContenu.html.twig' with {'detail':detail,'nbVoteTotal':nbVoteTotal,'msg':msg,'listeCandidat' : listeCandidat,'desk' :desk,"mode":mode} %}
+         {% else %}
+
+                    {% include ':global:choiceElection.html.twig' with {'elections':elections,"election":election} %}
+                    <a href="#" id="saisie" class="btn btn-info">Saisir les votes</a>
+                    <script>
+
+
+                        function ajax (route,element) {
+                            var  DATA="";
+                            $.ajax({
+                                type: "GET",
+                                url: route,
+                                data: DATA,
+                                cache: false,
+                                success: function(data,statut){
+
+                                    document.getElementById(element).value = data[element];
+                                }
+
+                            })
+                        }
+                        var choice_election =  document.getElementById('choice_election');
+                        var deskID = {{ desk.id }};
+                        var electionID={{ election.id }};
+
+
+
+                        document.getElementById('saisie').addEventListener('click', function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            var route = "{{ path('packvote_new_election',{"desk": "desk_id", "election": "election_id","mode":1}) }}";
+                            route = route.replace("election_id", electionID);
+                            route = route.replace("desk_id", deskID);
+
+                            if( electionID !=-1 && deskID !=-1){
+                                document.location.href = route;
+                            }
+                            else{
+                                alert("merci de faire un choix");
+                            }
+                        });
+
+                    </script>
+
+         {% endif %}
+
+{% else %}
+    <h1>Il n'y a pas de desk ou d'élection</h1>
+{% endif %}
+
+{% endblock %}

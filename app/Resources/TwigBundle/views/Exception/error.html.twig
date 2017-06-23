@@ -1,0 +1,22 @@
+{# app/Resources/TwigBundle/views/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Page not found</h1>
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class='error'>
+                <div class="message">
+                    <h2>Application Error</h2>
+                    <p>Oops! {{ status_text }}</p>
+
+                    <h2>Application Error</h2>
+                    <p>Oops! {{ status_text }}</p>
+                </div>
+            </div>
+    {% endif %}
+    <p>
+        The requested page couldn't be located. Checkout for any URL
+        misspelling or <a href="{{ path('visiteur_index') }}">return to the homepage</a>.
+    </p>
+{% endblock %}

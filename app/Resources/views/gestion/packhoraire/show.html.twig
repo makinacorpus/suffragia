@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Participation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Datetime</th>
+                <td>{% if packHoraire.dateTime %}{{ packHoraire.dateTime|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Nbvotant</th>
+                <td>{{ packHoraire.nbVotant }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ packHoraire.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('packhoraire_index') }}">Revenir à la liste</a>
+        </li>
+        <li>
+            <a href="{{ path('packhoraire_edit', { 'id': packHoraire.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

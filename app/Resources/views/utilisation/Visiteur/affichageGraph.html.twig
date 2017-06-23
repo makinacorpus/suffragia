@@ -1,0 +1,55 @@
+
+<div id="viewResult">
+<canvas id="bar-chart" width="70%" height="50%" ></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+<script>
+    // Bar chart
+
+
+
+
+
+
+
+    new Chart(document.getElementById("bar-chart"), {
+        type: 'bar',
+        data: {
+            labels: [{% for candidat in candidats %}{% if loop.index != candidats | length %}'{{ candidat.name }}{% if candidat.parti != null %} - {{ candidat.parti.name }} {% endif %}',{% else %}'{{ candidat.name }}{% if candidat.parti != null %} - {{ candidat.parti.name }} {% endif %}'{% endif %}{% endfor %}],
+            datasets: [
+                {
+                    backgroundColor: [    {% for candidat in candidats %}
+                        {% if loop.index != candidats | length %}
+                        {% if candidat.parti != null %}
+                        "{{ candidat.parti.color }}",
+                        {% else %}
+                        ,"#a8c9b9",
+                        {% endif %}
+                        {% else %}
+                        {% if candidat.parti != null %}
+                        "{{ candidat.parti.color }}"
+                        {% else %}
+                        ,"#a8c9b9"
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    ],
+                    data: [{% for candidat in candidats %}{% if loop.index != candidats | length %}'{{ candidat.getNbVotes }}',{% else %}'{{ candidat.getNbVotes }}'{% endif %}{% endfor %}]
+                }
+            ]
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: 'Nombre de votes'
+            }
+        }
+    });
+
+</script>
+
+</div>
+
+
+

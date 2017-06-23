@@ -1,0 +1,149 @@
+
+{% extends "base2.html.twig" %}
+
+{%  block contenu %}
+
+    <header>
+        <div class="header-content container">
+                <br><br><br><br>
+            <div class="header-content-inner">
+
+                {% if townHalls | length > 0 %}
+                    <h1 id="homeHeading">Site de vote de
+                        {% if townHalls |length ==1 %}
+                            la townHall de
+                        {% else %}s townHalls de
+                        {% endif %}
+                        {% for townHall in townHalls %}
+                            {% if loop.index !=0 %}
+                                {{ townHall.nom| upper}}
+                                {% if not loop.last %}
+                                    ,
+                                {% endif %}
+                            {% endif %}
+
+                        {% endfor %}
+                    </h1>
+                    {% for townHall in townHalls %}
+                        {% if loop.index !=0 %}
+                            <!--
+                            <img style="max-height : 150px ;max-width : 200px" src="{{ asset('uploads/logo/' ~ townHall.logo)}}">-->
+                        {% endif %}
+
+                    {% endfor %}
+                {% else %}
+                    <h1>Il n'existe pas de townHalls
+                    </h1>
+                {% endif %}
+                <hr>
+                <!--<p>Un site réalisé par makina corpus</p>-->
+                <form class="form-group">
+                    <label for="exampleSelect1">Choisir votre townHall et l'élection pour voir les résultats</label>
+                    <select autocomplete="off" class="form-control choixTownHall" id="choixTownHall" name="choixTownHall">
+                        <option value="-1" >Choisir une townHall</option>
+
+                        {% for townHall in townHalls %}
+                            <option value="{{ townHall.id }}"  selected="selected">{{  townHall.nom }}</option>
+                        {% endfor%}
+                    </select>
+<br>
+                    <select autocomplete="off" class="form-control choixlection" id="choixElection" name="choixElection">
+                        <option value="-1" >Choisir une élection</option>
+
+                        {% for election in elections %}
+                            <option value="{{ election.id }}" selected>{{  election.nom }}</option>
+
+                        {% endfor %}
+                    </select>
+                </form>
+                    <div id="hide" class="row">
+                                    <div class="col-sm-6">
+                                        <i class="fa fa-4x fa-envelope-square text-primary"></i>
+                                        <a id="voteDetail" href=""><h3>consulter en direct les résultats des élections</h3></a>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <i class="fa fa-4x fa-users text-primary"></i>
+                                        <a id="voirParticipation" href=""><h3>Voir la participation</h3></a>
+                                    </div>
+                 </div>
+            </div>
+        </div>
+    </header>
+
+
+    <section class="bg-primary" id="about">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">Pourquoi suffragia</h2>
+                    <hr class="light">
+                    <p class="text-faded">Suffragia, site réalisé par l'entreprise Makina-Corpus,
+                        permet aujourd’hui de
+                        comptabiliser les votes, de suivre la participation, d'afficher les
+                        résultats, d'archiver et exporter les données dans un format ouvert (open data)
+                        . Cela permet de
+                        réduire le temps de dépouillement, de limiter le risque d'erreur, de partager l'information le plus tôt
+                        possible les résultats, et également de
+                        réaliser des analyses statistiques simples</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 text-center">
+                    <h2 class="section-heading">Comment cela marche</h2>
+                    <hr class="light">
+                    <p class="text-faded">Pour son fonctionnement le site requiert au moins une personne (scrutateur supplémentaire) par desk. Ce scrutateur muni d’une tablette ou d’un ordinateur entre les votes associés à chaque candidat au fur et à mesure du dépouillement à l’aide des boutons plus et moins. Il lui est aussi possible de rentrer le nombre de votants, information qui lui permet de voir l’avancement du dépouillement et de constater l’exactitude des résultats.</p>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+
+
+    <script>
+        document.getElementById('hide').style.visibility='hidden';
+        document.getElementById('choixElection').addEventListener('change', warn2, true);
+        document.getElementById('choixTownHall').addEventListener('change', warn2, true);
+
+        warn2(null);
+
+
+        function warn2(e) {
+            if(e !=null){
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            var route = "{{ path('visiteur_showVoteDetail',{"townHall": "townHall_id","election" : "election_id","mode" : 1}) }}";
+            if( document.getElementById('choixElection').value !=-1 && document.getElementById('choixTownHall').value !=-1 ) {
+                route = route.replace("townHall_id", document.getElementById('choixTownHall').value);
+                route = route.replace("election_id", document.getElementById('choixElection').value);
+                document.getElementById('voteDetail').href = route;
+
+                route = "{{ path('utilisation_packhoraire_voirgraph',{"townHall": "townHall_id","election" : "election_id","mode":2}) }}";
+                route = route.replace("townHall_id", document.getElementById('choixTownHall').value);
+                route = route.replace("election_id", document.getElementById('choixElection').value);
+                document.getElementById('voirParticipation').href = route;
+
+                document.getElementById('hide').style.visibility = 'visible';
+                document.getElementById('hide').style.display = 'block';
+
+
+            }
+            else{
+                document.getElementById('hide').style.visibility = 'hidden';
+                document.getElementById('hide').style.display = 'none';
+
+            }
+            //document.location.href = route;
+        }
+
+
+
+    </script>
+{% endblock %}

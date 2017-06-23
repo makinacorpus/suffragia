@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Site de vote">
+    <meta name="author" content="Thibault Daccord">
+
+    <title>Suffragia</title>
+    <script src="{{ asset('resBootStrap/vendor/jquery/jquery.min.js')}}"></script>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ asset('resBootStrap/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{{ asset('resBootStrap/vendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+
+    <!-- Plugin CSS -->
+    <link href="{{ asset('resBootStrap/vendor/magnific-popup/magnific-popup.css')}}" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link href="{{ asset('resBootStrap/css/creative.css')}}" rel="stylesheet">
+
+    <!-- mes CSS -->
+    <link href="{{ asset('resPerso/lien.css')}}" rel="stylesheet">
+    <link href="{{ asset('resPerso/css/index.css')}}" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ asset('resBootStrap/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="{{ asset('resBootStrap/vendor/scrollreveal/scrollreveal.min.js')}}"></script>
+    <script src="{{ asset('resBootStrap/vendor/magnific-popup/jquery.magnific-popup.min.js')}}"></script>
+
+    <script src="{{ asset('resBootStrap/js/creative.min.js')}}"></script>
+    <script src="{{ asset('resPerso/js/bootboxalert/bootbox.min.js') }}"></script>
+
+    {% block head %}
+    {% endblock %}
+    {% block head2 %}
+    {% endblock %}
+
+
+
+    <style>
+
+
+        .ripplelink{
+            display:block;
+            float:left;
+            text-align:center;
+            color:#fff;
+            text-decoration:none;
+            position:relative;
+            overflow:hidden;
+            -webkit-transition: all 0.2s ease;
+            -moz-transition: all 0.2s ease;
+            -o-transition: all 0.2s ease;
+            transition: all 0.2s ease;
+            z-index:0;
+        }
+
+        .ripplelink:hover{
+            z-index:1000;
+            box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
+            -webkit-box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
+            -moz-box-shadow:rgba(0, 0, 0, 0.3) 0 16px 16px 0;
+        }
+
+        .ink {
+            display: block;
+            position: absolute;
+            background:rgba(255, 255, 255, 0.3);
+            border-radius: 100%;
+            -webkit-transform:scale(0);
+            -moz-transform:scale(0);
+            -o-transform:scale(0);
+            transform:scale(0);
+        }
+
+        .animate {
+            -webkit-animation:ripple 0.65s linear;
+            -moz-animation:ripple 0.65s linear;
+            -ms-animation:ripple 0.65s linear;
+            -o-animation:ripple 0.65s linear;
+            animation:ripple 0.65s linear;
+        }
+
+        @-webkit-keyframes ripple {
+            100% {opacity: 0; -webkit-transform: scale(2.5);}
+        }
+        @-moz-keyframes ripple {
+            100% {opacity: 0; -moz-transform: scale(2.5);}
+        }
+        @-o-keyframes ripple {
+            100% {opacity: 0; -o-transform: scale(2.5);}
+        }
+        @keyframes ripple {
+            100% {opacity: 0; transform: scale(2.5);}
+        }
+
+
+    </style>
+    <script>
+        /*jQuery*/
+
+        $(function(){
+            var ink, d, x, y;
+            $(".ripplelink").click(function(e){
+                if($(this).find(".ink").length === 0){
+                    $(this).prepend("<span class='ink'></span>");
+                }
+
+                ink = $(this).find(".ink");
+                ink.removeClass("animate");
+
+                if(!ink.height() && !ink.width()){
+                    d = Math.max($(this).outerWidth(), $(this).outerHeight());
+                    ink.css({height: d, width: d});
+                }
+
+                x = e.pageX - $(this).offset().left - ink.width()/2;
+                y = e.pageY - $(this).offset().top - ink.height()/2;
+
+                ink.css({top: y+'px', left: x+'px'}).addClass("animate");
+            });
+        });
+    </script>
+
+
+</head>
+
+
+
+
+<!-- jQuery -->
+<body id="page-top">
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header color">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand page-scroll" href="{{ path('app_homepage') }}">Accueil</a>
+
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+
+                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+
+                    <li>
+                        <a class="page-scroll" href="{{ path('utilisation_user_action') }}#services">Actions</a>
+                    </li>
+
+                {% endif %}
+
+                <li class="menuConnexion">
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <div class="btn-group">
+                            <button id="nomUser" type="button" class="form-control btn btn-default dropdown-toggle fa fa-user" data-toggle="dropdown">
+                                {{app.user.username}}
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a id="linkProfile" href="{{ path('utilisation_user_profile') }}">Profil</a></li>
+                                <li><a class="fa fa-power-off" href="{{ path('fos_user_security_logout') }}" > Déconnexion</a></li>
+                            </ul>
+                        </div>
+
+                    {% else %}
+                <li>
+                    <a class="page-scroll" href="{{ path('fos_user_security_login') }}">Connexion</a>
+                </li>
+
+                    {% endif %}
+
+                </li>
+
+
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+{% block contenu0 %}
+    {% block contenu %}
+    {% endblock %}
+    {% block body %}
+    {% endblock %}
+{% endblock %}
+
+<section class="bg-gray">
+    <div class="container">
+        <div class="row" style="text-align: center">
+            <h2 style="color: gray">un site en partenariat avec</h2>
+            <div>
+                <div class="col-sm-3 line">
+                    <a href="https://makina-corpus.com/"><img src="{{ asset('resPerso/img/integration/MakinaCorpus_logo_vert_noir.png') }}"></a>
+                </div>
+
+                <div class="col-sm-3 line">
+                    <a href="http://www.iut-blagnac.fr/"><img src="{{ asset('resPerso/img/integration/logo_IUT.png') }}">
+                    </a>
+                </div>
+
+                <div class="col-sm-3 line">
+                    <a href="http://www.ville-fontenilles.fr/"><img src="{{ asset('resPerso/img/integration/fontevile_logo.png') }}"></a>
+                </div>
+                <div class="col-sm-3 line">
+                    <a href="http://www.mairie-ramonville.fr/"><img src="{{ asset('resPerso/img/integration/ramon-ville-logo.png') }}"></a>
+                </div>
+
+
+            <!--
+            <div class="col-lg-4 text-center">
+                <i class="fa fa-envelope-o fa-3x sr-contact"></i>
+                <p><a href="mailto:your-email@your-domain.com">site@XXXXXXX.fr</a></p>
+            </div>-->
+        </div>
+    </div>
+    </div>
+</section>
+
+
+
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-92264312-2', 'auto');
+    ga('send', 'pageview');
+</script>
+
+</body>
+
+</html>
+

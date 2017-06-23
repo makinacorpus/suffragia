@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+{% block head %}
+    <link href="{{ asset('resPerso/css/inputAjax.css')}}" rel="stylesheet">
+    <link href="{{ asset('resPerso/css/espacement.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block contenu %}
+    <h1>Election {{ election.name }}</h1>
+        <script>
+            var deskId= null;
+            var stateId= null;
+        </script>
+
+        {% if detail !=null %}
+
+            {% include ':global:choiceDesk.html.twig' with {'deskx':qg.deskx,'desk': desk} %}
+            {% include ':global:choiceState.html.twig' with {'detail':detail,'state' : detail.state } %}
+            <a href="#" id="send" class="btn btn-success">Envoyer</a>
+            <h2>bureau :  {{ desk.name }}</h2>
+            {% include ':gestion/packvote:newContenu.html.twig' with {'detail':detail,'nbVoteTotal':nbVotesTotal, 'msg':msg,'listeCandidat' : candidats,'desk' :desk,"mode": 1} %}
+
+            <script>
+                function ajax11 (route,element) {
+                    var  DATA="";
+                    $.ajax({
+                        type: "GET",
+                        url: route,
+                        data: DATA,
+                        cache: false,
+                        success: function(data,statut){
+                            bootbox.alert("Operation réussite, merci de recharger la page");
+                        },
+                        error: function(statut,error) {
+                            bootbox.alert("l'opération a échoué");
+                            alert("erreur pour recuperer "+element);
+                        }
+                    })
+                }
+
+
+
+
+
+
+
+                electionId = {{ election.id }};
+                var choice_desk =  document.getElementById('choix_deskx');
+                var choice_state =  document.getElementById('choice_state');
+                deskId = {{ desk.id }};
+                stateId = choice_state.options[choice_state.selectedIndex].value;
+
+                choice_desk.addEventListener('change', function (e) {
+                    deskId = choice_desk.options[choice_desk.selectedIndex].value;
+                    route = "{{ path('qg_utilisation_validVoteElection',{"desk": "desk_id","qg":qg.id,"election": "election_id","mode":1}) }}";
+                    route = route.replace("election_id", electionId);
+                    route = route.replace("desk_id", deskId);
+                    document.location.href = route;
+                });
+
+                choice_state.addEventListener('change', function (e) {
+                    stateId = choice_state.options[choice_state.selectedIndex].value;
+                });
+
+
+                document.getElementById('send').addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    route = "{{ path('detailEB_state',{"desk": "desk_id","election": "election_id","state":"state_id"}) }}";
+                    route = route.replace("election_id", electionId);
+                    route = route.replace("desk_id", deskId);
+                    route = route.replace("state_id", stateId);
+                    if(deskId !=-1){
+
+                        ajax11(route,"choice_state");
+
+                    }
+                    else{
+                        alert("merci de faire un choix");
+                    }
+                });
+
+            </script>
+{% else %}
+            Il n'y a pas de bureaux pour cette élection
+{% endif %}
+
+{% endblock %}

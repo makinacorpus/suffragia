@@ -1,0 +1,20 @@
+/* Clear button styles
+--------------------------------------------- */
+
+::-ms-clear {
+  display: none;
+}
+
+.form-control-clear {
+  z-index: 10;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+
+/* Custom page CSS (Not required)
+--------------------------------------------- */
+
+#exampleContainer {
+  padding: 50px;
+}

@@ -1,0 +1,251 @@
+{% extends 'base.html.twig' %}
+
+{% block contenu %}
+
+
+    <div class="container">
+
+        <h2>Gestion des droits en tant que mairie(s) {{ app.user.townHalls | join(',') }}</h2>
+
+
+        <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Filtrer par nom..." id="myInputForFilter" onkeyup="myFunctionForFilter()" >
+            </div>
+            <button class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+        </form>
+
+
+
+        <table class="table table-condensed" id="myTableForFilter">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Role QG</th>
+                <th>Role bureau</th>
+                <th>Role mairie</th>
+                <th>Autre role</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                
+                <tr data-attribut="{{ user.id }}">
+                <td>{{ user.UserName}}</td>
+                <td>
+                    <div class="form-group">
+                        <select class="selectQg{{user.id }} form-control" id="selectQg{{user.id }}" autocomplete="off">
+                            <option value="-1">Aucun droit</option>
+
+                {% for qg in qgs %}
+                    {% if qg in user.qgs %}
+                        <option value="{{ qg.id }}" selected>{{ qg.nom }}</option>
+                    {% else %}
+                         <option value="{{ qg.id }}">{{ qg.nom }}</option>
+                    {% endif %}
+                {% endfor %}
+
+                    </select>
+                </div>
+                </td><td>
+                        <div class="form-group">
+                            <select class="selectDeskx{{user.id }} form-control" id="selectDesk{{user.id }}" autocomplete="off">
+                                <option value="-1">Aucun droit</option>
+
+                                {% for b in deskx %}
+                            {% if b in user.deskx %}
+                                <option value="{{ b.id }}" selected>{{ b.nom }}</option>
+                            {% else %}
+                                <option value="{{ b.id }}">{{ b.nom }}</option>
+                            {% endif %}
+                        {% endfor %}
+                            </select>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="form-group">
+                            <select autocomplete="off" class="selectTownHall{{user.id }} form-control" id="selectTownHall{{user.id }}" autocomplete="off">
+                                <option value="-1">Aucun droit</option>
+                                {% for m in townHalls %}
+                                    {% if m in user.townHalls %}
+                                        <option value="{{ m.id }}" selected>{{ m.nom }}</option>
+                                    {% else %}
+                                        <option value="{{ m.id }}">{{ m.nom }}</option>
+                                    {% endif %}                                {% endfor %}
+                            </select>
+                        </div>
+                    </td>
+
+
+                    <td>
+                        <div class="form-group">
+                            <select class="selectTouriste{{user.id }} form-control" id="selectTouriste{{user.id }}" autocomplete="off">
+                            {%  if is_granted("ROLE_TOURISTE") %}
+                                <option value="1" selected>Touriste</option>
+                                <option value="-1">Aucun droit</option>
+                            {% else %}
+                                <option value="1" >Touriste</option>
+                                <option value="-1" selected>Autre role</option>
+                            {% endif %}
+
+                            </select>
+                        </div>
+                    </td>
+
+                    <td><span id="removeUser{{user.id}}" class="glyphicon glyphicon-remove"></span></td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+<script>
+
+    function ajax (route,redirect) {
+        var  DATA="";
+        $.ajax({
+            type: "GET",
+
+            url: route,
+
+            data: DATA,
+            cache: false,
+            success: function(data,statut){
+                bootbox.alert("Opération effectué, merci de demander à l'utilisateur de se reconnecter")
+                if(redirect == true){
+                    window.location.reload();
+                }
+            },
+
+
+        })
+    }
+
+
+    /*
+    document.getElementById('selecttownHall').addEventListener('change', warn, true);
+
+    function warn(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        alert("changement townHall");
+        /*/
+       {# var route = "{{ path('gestion_droits_townHall',{ "id": "townHall_id"}) }}"; #}
+    /*
+        route = route.replace("townHall_id", e.currentTarget.value);
+        document.location.href = route;
+    }
+       */
+
+    function getSelectedText(elementId) {
+        var elt = document.getElementById(elementId);
+
+        if (elt.selectedIndex == -1)
+            return null;
+
+        return elt.options[elt.selectedIndex].value;
+    }
+
+
+    {% for user in users %}
+
+
+    document.getElementById("selectDesk{{ user.id }}").addEventListener('change',
+    function(e){
+        var route = "{{ path('utilisation_user_droits_desk_ajax',{"user": user.id,"desk": "desk_id"}) }}";
+        route = route.replace("desk_id", getSelectedText("selectDesk{{ user.id }}"));
+        if (getSelectedText("selectDesk{{ user.id }}") == -1){
+            route = "{{ path('utilisation_user_droits_desk_remove_ajax',{"user": user.id}) }}";
+        }
+        ajax(route,false);
+        e.preventDefault();
+        e.stopPropagation();
+    }, true);
+
+    document.getElementById("removeUser{{ user.id }}").addEventListener('click',
+        function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            bootbox.confirm({
+                title: "Detruire le compte",
+                message: "Cette action est irreversible !",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Conserver le compte'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Supprimer le compte'
+                    }
+                },
+                callback: function (result) {
+                    if(result==true){
+                        var route = "{{ path('utilisation_user_droits_user_remove_ajax',{"user": user.id}) }}";
+                        ajax(route,true);
+                    }
+                }
+            });
+
+
+        }, true);
+
+
+
+    document.getElementById("selectQg{{ user.id }}").addEventListener('change',function(e) {
+        var route = "{{ path('utilisation_user_droits_qg_ajax',{"user": user.id,"qg": "qg_id"}) }}";
+        route = route.replace("qg_id", getSelectedText("selectQg{{ user.id }}"));
+        if (getSelectedText("selectQg{{ user.id }}") == -1){
+            route = "{{ path('utilisation_user_droits_qg_remove_ajax',{"user": user.id}) }}";
+        }
+        ajax(route,false);
+        e.preventDefault();
+        e.stopPropagation();
+    }, true);
+
+    document.getElementById("selectTownHall{{ user.id }}").addEventListener('change',function(e) {
+        var route = "{{ path('utilisation_user_droits_townHall_ajax',{"user": user.id,"townHall": "townHall_id"}) }}";
+        route = route.replace("townHall_id", getSelectedText("selectTownHall{{ user.id }}"));
+        if (getSelectedText("selectTownHall{{ user.id }}") == -1){
+            route = "{{ path('utilisation_user_droits_townHall_remove_ajax',{"user": user.id}) }}";
+        }
+        ajax(route,false);
+        e.preventDefault();
+        e.stopPropagation();
+    }, true);
+
+
+    document.getElementById("selectTouriste{{ user.id }}").addEventListener('change',function(e) {
+        var route = "{{ path('utilisation_user_droits_touriste_ajax',{"user": user.id}) }}";
+        if (getSelectedText("selectTouriste{{ user.id }}") == -1){
+            route = "{{ path('utilisation_user_droits_touriste_remove_ajax',{"user": user.id}) }}";
+        }
+        ajax(route,false);
+        e.preventDefault();
+        e.stopPropagation();
+    }, true);
+
+    {% endfor %}
+
+
+    function myFunctionForFilter() {
+        var input, filter, table, tr, td, i;
+        input = document.getElementById("myInputForFilter");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTableForFilter");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+election_index:
+    path:     /
+    defaults: { _controller: "AppBundle:gestion/Election:index" }
+    methods:  GET
+
+election_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:gestion/Election:show" }
+    methods:  GET
+
+election_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:gestion/Election:new" }
+    methods:  [GET, POST]
+
+election_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:gestion/Election:edit" }
+    methods:  [GET, POST]
+
+election_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:gestion/Election:delete" }
+    methods:  DELETE

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Liste des bureaux</h1>
+
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Id</th>
+                <th>Boss</th>
+                <th>Sous bureau(x)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for desk in desks %}
+            <tr>
+                <td><a href="{{ path('desk_show', { 'id': desk.id }) }}">{{ desk.name }}</a></td>
+                <td>{{ desk.id }}</td>
+                <td>{{ desk.bossDesk }}</td>
+                <td>{{ desk.subOffices | join(',')}}</td>
+
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('desk_show', { 'id': desk.id }) }}">Montrer</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('desk_show', { 'id': desk.id }) }}">Montrer</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('desk_edit', { 'id': desk.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('desk_new') }}">Cree un(e)desk</a>
+        </li>
+    </ul>
+{% endblock %}

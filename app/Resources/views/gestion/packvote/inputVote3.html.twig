@@ -1,0 +1,36 @@
+
+<div id="modeAffichage2">
+
+
+    <div class="container">
+        <p>Cette affichage permet de rajouter un nombre de vote pour un candidat</p>
+        <table class="table table-condensed">
+            <thead>
+            <tr>
+                {% for c in candidats %}
+                    <th>
+                        {{ c.Nom }}<p class="nbVoteCandidat{{ c.id }}">{{ c.data }}</p>
+                    </th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                {% for c in candidats %}
+                    <td>
+                        <div><input id="numberVote{{ c.id }}" type="number"  value="0"/></div>
+                    </td>
+                {% endfor %}
+            </tr>
+            <tr>
+                {% for c in candidats %}
+                    <td>
+                        <div data-candidat="{{ c.id }}" id="addVote" class="btn btn-primary addVote" >Rajouter</div>
+                    </td>
+                {% endfor %}
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

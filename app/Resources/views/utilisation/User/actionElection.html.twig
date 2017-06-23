@@ -1,0 +1,134 @@
+
+
+{% if election != null %}
+    <h1>Action(s) liée(s) à l'élection "{{ election.metaElection.name }}"</h1>
+
+    {% if user.deskx |length >0 %}
+        {% set desk = user.deskx[0] %}
+        <!--Action pour le role_desk-->
+        <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box draw">
+                <i class="fa fa-4x fa-desktop text-primary sr-icons"></i>
+                <a href="{{ path('packvote_new_election',{desk : desk.id,'election':election.id,"mode" :1}) }}"><h3> Entrer les votes et la participation pour votre bureau (ici bureau {{ desk.nom }})</h3></a>
+                <p class="text-muted"> Entrer les votes et la participation pour votre bureau</p>
+            </div>
+        </div>
+        <!--Action pour le role_desk-->
+        <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box draw">
+                <i class="fa fa-4x fa-desktop text-primary sr-icons"></i>
+                <a href="{{ path('packhoraire_index',{id : desk.id}) }}"><h3>Gérer la participation</h3></a>
+                <p class="text-muted">Durant le dépouillement, vous pouvez gerer la participation</p>
+            </div>
+        </div>
+
+    {% endif %}
+
+    {% if user.townHalls |length >0 %}
+        {% set townHall = user.townHalls[0] %}
+
+        <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-diamond text-primary sr-icons"></i>
+                        <a id="export"><h3>Exporter le résultat</h3></a>
+                        <p class="text-muted"></p>
+                    </div>
+        </div>
+        <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box">
+                <i class="fa fa-4x  fa-diamond text-primary sr-icons"></i>
+                <a href="{{ path('qg_utilisation_manageVote',{"townHall" : user.townHalls[0].id,"election" :election.id}) }}"><h3>Gerer une élection pour votre mairie</h3></a>
+                <p class="text-muted">Permet de rendre privée,terminée ou public une éléction</p>
+            </div>
+        </div>
+
+        <script>
+            $("#export").click(function () {
+
+                bootbox.prompt({
+                    title: "Merci de choisir le format d'export!",
+                    inputType: 'select',
+                    inputOptions: [
+
+                        {
+                            text: 'Format csv',
+                            value: '1',
+                        },
+                        {
+                            text: 'Format excel',
+                            value: '2',
+                        },
+
+                        {
+                            text: 'Format JSON',
+                            value: '4',
+                        },
+
+                        {
+                            text: 'Format pdf',
+                            value: '5',
+                        },
+                    ],
+                    callback: function (result) {
+                        switch (result){
+                            case "1":
+                                link = "{{ path('townHall_utilisation_csv',{"townHall": townHall.id,"election":election.id}) }}";
+                                document.location.href = link;
+                                break;
+                            case "2":
+                                link = "{{ path('townHall_utilisation_excel',{"townHall": townHall.id,"election":election.id}) }}";
+                                document.location.href = link;
+
+                                break;
+
+                            case "5":
+                                link = "{{ path('visiteur_showVoteDetailhtml',{"townHall": townHall.id,"election":election.id}) }}";
+                                document.location.href = link;
+                                break;
+                            case "4":
+                                link = "{{ path('detailEM_JSON_BRUT',{"townHall": townHall.id,"election":election.id}) }}";
+                                document.location.href = link;
+                                break;
+
+                        }
+                    }
+                });
+            })
+
+
+        </script>
+
+    {% endif %}
+
+    {% if user.qgs |length >0 %}
+        {% set qg = user.qgs[0] %}
+
+          {% if qg.desks | length > 0 %}
+            <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box">
+                <i class="fa fa-4x fa-newspaper-o text-primary sr-icons"></i>
+                <a href="{{ path('qg_utilisation_validVote',{qg : qg.id, "election" : election.id}) }}"><h3>Gestion des votes finaux</h3></a>
+                <p class="text-muted">Permet de modifier les votes et de les valider bureau par bureau</p>
+            </div>
+        </div>
+        {% endif %}
+
+
+    {% endif %}
+{% else %}
+    <h1>Action(s) liée(s) à une élection</h1>
+
+    {% include ':global:choiceElection.html.twig' with {'elections': metaElections} %}
+        <script>
+            var choice_election =  document.getElementById('choice_election');
+
+            choice_election.addEventListener('change', function (e) {
+                electionId = choice_election.options[choice_election.selectedIndex].value;
+                route = '{{ path('utilisation_user_action_election',{"metaElection": "election_id"}) }}';
+                route = route.replace("election_id", electionId);
+                if(electionId !=-1) {
+                    document.location.href = route;
+                }
+            });
+        </script>
+{% endif %}

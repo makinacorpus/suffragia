@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Liste des mairies</h1>
+
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Logo</th>
+                <th>Code postale</th>
+
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody >
+        {% for townHall in townHalls %}
+            <tr>
+                <td><a href="{{ path('townHall_show', { 'id': townHall.id }) }}">{{ townHall.id }}</a></td>
+                <td>{{ townHall.nom }}</td>
+                <td><img style="max-height : 150px ;max-width : 200px" src="{{townHall.logo}}"></img></td>
+
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('townHall_show', { 'id': townHall.id }) }}">Montrer</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('townHall_edit', { 'id': townHall.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('townHall_new') }}">Creer une nouvelle townHall</a>
+        </li>
+    </ul>
+{% endblock %}

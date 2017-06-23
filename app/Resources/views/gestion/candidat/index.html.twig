@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Candidats list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Parti</th>
+                <th>Election</th>
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for candidat in candidats %}
+            <tr>
+                <td><a href="{{ path('candidat_show', { 'id': candidat.id }) }}">{{ candidat.name }}</a></td>
+
+                {% if candidat.parti !=null %}
+                <td><a href="{{ path('candidat_show', { 'id': candidat.parti.id }) }}">{{ candidat.parti.name }}</a></td>
+                    {% else %}
+                    <td>Pas de parti</td>
+                {% endif %}
+                <td><a href="{{ path('election_show', { 'id': candidat.election.id }) }}">{{ candidat.election.name }}</a></td>
+
+
+
+
+                <td>{{ candidat.id }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('candidat_show', { 'id': candidat.id }) }}">Montrer</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('candidat_edit', { 'id': candidat.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('candidat_new') }}">Cree un(e)candidat</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,22 @@
+ <div class="form-group">
+            <label for="label">Choisir l'etat du bureau pour cette election</label>
+     <select autocomplete="off" id="choice_state" class="form-control">
+         {% for e in detail.availableTypes %}
+             {% if state is defined %}
+                 {% if e== state %}
+                     <option value="{{ detail.indexOfState(e) }}" class="choix_etat" selected>{{  e }}</option>
+                 {% else %}
+                     <option value="{{  detail.indexOfState(e) }}" class="choix_etat">{{  e }}</option>
+                 {% endif %}
+             {% else %}
+                 <option value="{{ detail.indexOfState(e) }}" class="choix_etat">{{  e }}</option>
+             {% endif %}
+         {% else %}
+             <h1>Merci de créer un etat</h1>
+         {% endfor %}
+     </select>
+ </div>
+
+
+
+

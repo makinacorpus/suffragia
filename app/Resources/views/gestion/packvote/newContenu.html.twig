@@ -1,0 +1,520 @@
+
+
+
+
+
+<hr>
+<button type="button" class="btn btnCollapse btn-success" data-toggle="collapse" data-target="#signatureInscritCollapse">
+    <span class="glyphicon glyphicon-collapse-down"></span> Editer Signature + inscription  <div class="fa fa-pencil-square-o"> </div>
+</button>
+
+<button type="button" class="btn btnCollapse1 btn-success" data-toggle="collapse" data-target="#packHundred">
+    <span class="glyphicon glyphicon-collapse-down"></span> Voir pour le paquet de cent   <div class="fa fa-cubes"></div>
+</button>
+<a href="#">
+    <span class="glyphicon glyphicon-sort-by-attributes-alt sortCandidat" id="sortCandidat"></span>
+</a>
+
+    <form id="signatureInscritCollapse" style="margin-top: 60px" action="#" class="centerBorder collapse">
+        <div class="row">
+            <div class="form-group col-md-5">
+                 <label class="" for="inlineFormInput">Nombre de signatures</label>
+                <input type="number" class="form-control mb-2 mr-sm-2 mb-sm-0" id="choix_nbSignature" id="inlineFormInput" placeholder="{{ detail.nbSignature }}" value="{{ detail.nbSignature }}">
+            </div>
+
+            <div class="form-group col-md-5">
+                <label class="" for="inlineFormInputGroup">Nombre d'inscrits</label>
+                 <input type="number" class="form-control" id="choix_nbInscrit" id="inlineFormInputGroup" placeholder="{{ detail.nbInscrits }}" value="{{ detail.nbInscrits }}">
+            </div>
+            <div style="margin-top: 24px" class=" col-md-1">
+                 <button id="sendNbInscritSignature" class="btn btn-primary">Envoyer</button>
+            </div>
+
+        </div>
+    </form>
+
+
+        <div><p>votes comptabilisés :<span class="nbVoteTotal" id="nbVoteTotal" > {{ nbVoteTotal }}</span> / <em id="nbSignature">{{ detail.nbSignature }}</em></p></div>
+
+<div><p class="stateDesk">Etat du bureau {{ detail.state }}</p></div>
+<form id="packHundred" style="margin-top: 60px;text-align: center" action="#" class="centerBorder collapse" >
+
+        {% if  detail.lastPacksHundred != null %}
+            <table class="table">
+                <tr>
+                    {% for c in election.candidats %}
+                        <td>{{ c.name }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for c in election.candidats %}
+                        <td class="nbVoteHundred{{ c.id }}"></td>
+                    {% endfor %}
+                </tr>
+
+            </table>
+            <!--
+<i class="fa fa-arrow-left fa-lg btn btn-success" id="arrawLeftHundred" aria-hidden="true"></i>
+<i class="fa fa-arrow-right fa-lg btn btn-success" id="arrawRightHundred" aria-hidden="true"></i>-->
+
+
+        {% endif %}
+</form>
+
+        <div class="btn-group">
+            <button id="typeAffichage" type="button" class="form-control btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Type d'affichage
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a id="lienMode1" href="#">Affichage boutons</a></li>
+                <li><a id="lienMode2" href="#" >Affichage + -</a></li>
+                <li><a id="lienMode3" href="#" >Affichage direct</a></li>
+
+                <li><a  id="lienMode4" href="#" >Option avancée</a></li>
+            </ul>
+        </div>
+
+
+
+
+<span id="panelMode1" hidden>
+        {% include ':gestion/packvote:inputVote1.html.twig' with {'listeCandidat': listeCandidat} %}
+</span>
+
+<span id="panelMode2" class="panelMode2" hidden>
+    {% include ':gestion/packvote:inputVote2.html.twig' with {'listeCandidat': listeCandidat} %}
+</span>
+
+
+<span id="panelMode3" hidden>
+    {% include ':gestion/packvote:inputVote3.html.twig' with {'candidats': listeCandidat} %}
+</span>
+
+<div class="modeAffichage3" id="panelMode4" hidden>
+    <a id="removeAllVote" href="#">Supprimer tous les votes de ce bureau pour cette election</a>
+
+    <br>
+        <div id="participation">
+            <div class="input-group">
+                <div class="form-group has-feedback has-clear">
+                  <input type="text" class="form-control" id="getParticipation" placeholder="Entrer ici la participation">
+                    <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
+                </div>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" id="sendParticipation">Envoyer</button>
+                 </span>
+            </div>
+        </div>
+    <br>
+    <div id="requestValid" class="btn btn-primary">Demander la validation de ce bureau</div>
+
+</div>
+
+
+
+
+
+
+
+<script>
+
+        var electionId = {{ election.id }};
+        var deskId = {{ desk.id }};
+
+        $(document).ready(function(){
+            $("#signatureInscritCollapse").on("hide.bs.collapse", function(){
+                $(".btnCollapse").html('<span class="glyphicon glyphicon-collapse-down"></span> Renseigner Signature + inscription');
+            });
+            $("#signatureInscritCollapse").on("show.bs.collapse", function(){
+                $(".btnCollapse").html('<span class="glyphicon glyphicon-collapse-up"></span> Renseigner Signature + inscription');
+            });
+        });
+        $(document).ready(function(){
+            $("#packHundred").on("hide.bs.collapse", function(){
+                $(".btnCollapse1").html('<span class="glyphicon glyphicon-collapse-down"></span> Voir pour un paquet de cent');
+            });
+            $("#signatureInscritCollapse").on("show.bs.collapse", function(){
+                $(".btnCollapse1").html('<span class="glyphicon glyphicon-collapse-up"></span> Voir pour un paquet de cent');
+            });
+        });
+
+</script>
+<script>
+    document.getElementById('sortCandidat').addEventListener('click',function (e) {
+
+
+        var $wrapper = $('.modeAffichage2');
+
+        $wrapper.find('.btn').sort(function(a, b) {
+            return -(a.getAttribute('data-nbVote') - b.getAttribute('data-nbVote'));
+        })
+        .appendTo($wrapper);
+
+        $('#threadModeAffichage1').each(function(ind) {
+            $(this).find('tr').each(function() {
+                tr= this;
+                $(tr).find('td').sort(function(a,b) {
+                        return -(a.getAttribute('data-nbVote') - b.getAttribute('data-nbVote'));
+                    }
+                ) .appendTo(tr);
+            });
+        });
+
+        $('#tbodyModeAffichage1').each(function(ind) {
+            $(this).find('tr').each(function() {
+                tr= this;
+                $(tr).find('td').sort(function(a,b) {
+                    return -(a.getAttribute('data-nbVote') - b.getAttribute('data-nbVote'));
+                }
+                ) .appendTo(tr);
+            });
+        });
+
+
+
+
+
+    });
+
+</script>
+
+
+
+<script>
+
+        function simpleAjax (route,element) {
+            var  DATA="";
+            $.ajax({
+                type: "GET",
+                url: route,
+                data: DATA,
+                cache: false,
+                success: function(data,statut){
+                    bootbox.alert("Opération réussite");
+                },
+                error: function(statut,error) {
+                    bootbox.alert("l'opération a échoué");
+                }
+            })
+        }
+
+        function ajax (route,element) {
+            var  DATA="";
+            $.ajax({
+                type: "GET",
+                url: route,
+                data: DATA,
+                cache: false,
+                success: function(data,statut){
+                    jsonE = data;
+                    for (var prop in jsonE) {
+                        if(prop == "alert"){
+                            bootbox.alert(jsonE[prop]);
+                        }
+                        else {
+                            document.getElementById(prop).value = jsonE[prop];
+                            document.getElementById(prop).placeholder = jsonE[prop];
+                            document.getElementById(element).textContent = jsonE[prop];
+                        }
+
+                    }
+
+
+                },
+                error: function(statut,error) {
+                    bootbox.alert("l'opération a échoué");
+                    alert("erreur pour recuperer "+element);
+                }
+            })
+        }
+
+
+
+        var indexHundred = 0;
+
+        function refreshHundred(){
+            {% if  detail.lastPacksHundred != null %}
+                route = "{{ path('detailEB_getJsonPackHundredIndex',{'detailEB':detail.id,"index":'index_id'})}}";
+                route.replace("indexHundred",indexHundred);
+                superAjax(route,false);
+            {% else %}
+                document.location.href = "{{ app.request.uri }}";
+            {% endif %}
+        }
+        //refreshHundred();
+        /**
+        document.getElementById("arrawLeftHundred").addEventListener('click',function (e) {
+            indexHundred--;
+            refreshHundred();
+        })
+        document.getElementById("arrawLeftHundred").addEventListener('click',function (e) {
+            indexHundred++;
+            refreshHundred();
+        })
+         */
+
+
+
+        function superAjax (route,needRefreshHundred) {
+            var  DATA="";
+            var valeur="";
+            state = ""
+            $.ajax({
+                type: "GET",
+                url: route,
+                data: DATA,
+                cache: false,
+                success: function(data,statut){
+                    setVoteInDom(data);
+                    state = "ok";
+                    if(needRefreshHundred){
+                        refreshHundred();
+                    }
+
+                },
+                error: function(statut,error) {
+                    alert("echec de l'envoi du vote")
+                    state = "faillure";
+                }
+            })
+        }
+
+
+
+        function setVoteInDom(data) {
+            $.each(data, function(index, element) {
+                balise = element.balise;
+                els = document.getElementsByClassName(balise);
+                for(var i=0; i<els.length; i++)
+                {
+                    els[i].setAttribute('data-nbVote',element.nbVote);
+                    console.log(balise);
+                    if(els[i].getAttribute('data-mode')!=0) {
+
+                        els[i].innerHTML = element.nbVote;
+                    }
+
+                }
+            });
+
+
+        }
+
+
+        function ajaxHolder (route,element) {
+            var  DATA="";
+            var valeur="";
+            $.ajax({
+                type: "GET",
+                url: route,
+                data: DATA,
+                cache: false,
+                success: function(data,statut){
+                    $.each(data, function(index, e) {
+                        document.getElementById(element).placeholder = e[element];
+                    })
+                },
+                error: function(statut,error) {
+                    alert("erreur pour recuperer "+element);
+                }
+            })
+        }
+
+
+        document.getElementById('removeAllVote').addEventListener('click',function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+           path = "{{path('packvote_delete_by_desk',{"desk": desk.id,"election":election.id,})}}";
+            bootbox.confirm({
+                title: "Supprimer tous les votes de ce desk ?",
+                message: "Cette action est irreversible",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Conserver'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Supprimer'
+                    }
+                },
+                callback: function (result) {
+                    if(result) {
+                        simpleAjax(path);
+                        bootbox.alert("Merci de recharger la page");
+                        // document.location.reload();
+                    }
+                }
+            });
+
+        });
+        document.getElementById('requestValid').addEventListener('click',function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            path = "{{path('detailEB_requestValid',{"desk": desk.id,"election":election.id,})}}";
+            ajax(path);
+
+
+        });
+
+
+
+            document.getElementById('sendNbInscritSignature').addEventListener('click',function (e) {
+             e.preventDefault();
+             e.stopPropagation();
+             path = "{{ path('detailEB_nbSignature',{"desk": "desk_id", "election": "election_id","nbsignature" : "detail_nbsignature"}) }}";
+             path = path.replace("detail_nbsignature", document.getElementById('choix_nbSignature').value);
+             path = path.replace("election_id", electionId);
+             path = path.replace("desk_id", deskId);
+             ajax(path,"nbSignature");
+             path = "{{ path('detailEB_nbInscrit',{"desk": "desk_id", "election": "election_id","nbinscrit" : "detail_nbinscrit"}) }}";
+             path = path.replace("detail_nbinscrit", document.getElementById('choix_nbInscrit').value);
+             path = path.replace("desk_id", deskId);
+             path2 = path.replace("election_id", electionId);
+             ajax(path2, "choix_nbInscrit");
+
+        },true);
+
+
+        function showLastParticipation(){
+            route ="{{ path('utilisation_packhoraire_getlast',{"desk": desk.id, "election": election.id} )}}";
+            ajaxHolder(route,"getParticipation");
+        }
+        showLastParticipation();
+
+        document.getElementById('sendParticipation').addEventListener('click', sendParticipation, true);
+        function sendParticipation(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            route = "{{ path('utilisation_packhoraire_edit',{"desk" : desk.id,"election": election.id,"nb": "nbP"}) }}";
+            route = route.replace("nbP", document.getElementById('getParticipation').value);
+            ajax(route,"getParticipation");
+        }
+
+
+        function vibrate(time) {
+            // Permet de préfixer les navigateurs
+            time=time+0;
+            navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+            // Si l'API vibrate est supportée, on fait vibrer le téléphone 1/2 seconde
+            if (navigator.vibrate) {
+                navigator.vibrate(time);
+            }
+        }
+
+
+        function plus()
+        {
+
+            vibrate(50);
+            idData_candidat = $(this).attr("data-candidat")
+            route = "{{ path('desk_directVote',{'desk':desk.id,"candidat": "tmp","number" : "nb_Vote" })}}";
+            route = route.replace("tmp", idData_candidat);
+            route = route.replace("nb_Vote", 1);
+            data= superAjax(route,true);
+
+        }
+
+
+        function moins()
+        {
+            vibrate(70);
+            idData_candidat = $(this).attr("data-candidat")
+            route = "{{ path('desk_directVote',{'desk':desk.id,"candidat": "tmp","number" : "nb_Vote" })}}";
+            route = route.replace("tmp", idData_candidat);
+            route = route.replace("nb_Vote", -1);
+            data= superAjax(route,true);
+
+        }
+        function directNumberVote() {
+            vibrate(100);
+            idData_candidat = $(this).attr("data-candidat");
+            number =  document.getElementById("numberVote"+idData_candidat).value;
+            route = "{{ path('desk_directVote',{'desk':desk.id,"candidat": "tmp","number" : "nb_Vote" })}}";
+            route = route.replace("tmp", idData_candidat);
+            route = route.replace("nb_Vote", number);
+            data= superAjax(route,true);
+
+        }
+
+
+
+
+
+        {% for user in listeCandidat %}
+         $(".vote_plus{{ loop.index -1 }}").on("click",plus);
+         $(".vote_moins{{ loop.index -1}}").on("click",moins);
+        {% endfor %}
+        $(".addVote").on("click",directNumberVote);
+
+    </script>
+
+
+    <script>
+
+         id = "#panelMode";
+        {% if mode==1 %}
+        $(id+"1").hide();
+        $(id+"2").show();
+        $(id+"3").hide();
+         $(id+"4").hide();
+
+         {% endif %}
+
+        {% if mode==2 %}
+        $(id+"1").show();
+        $(id+"2").hide();
+         $(id+"3").hide();
+         $(id+"4").hide();
+        {% endif %}
+
+        {% if mode==3 %}
+        $(id+"1").hide();
+        $(id+"2").hide();
+         $(id+"3").show();
+         $(id+"4").show();
+        {% endif %}
+         {% if mode==4 %}
+         $(id+"1").hide();
+         $(id+"2").hide();
+         $(id+"3").show();
+         $(id+"4").show();
+         {% endif %}
+
+        document.getElementById("lienMode1").addEventListener("click",function (e) {
+            $(id+"1").hide();
+            $(id+"2").show();
+            $(id+"3").hide();
+            $(id+"4").hide();
+            document.getElementById("typeAffichage").innerHTML="AFFICHAGE 1";
+
+        })
+
+        document.getElementById("lienMode2").addEventListener("click",function (e) {
+            $(id+"1").show();
+            $(id+"2").hide();
+            $(id+"3").hide();
+            $(id+"4").hide();
+            document.getElementById("typeAffichage").innerHTML="AFFICHAGE 2";
+
+        })
+
+        document.getElementById("lienMode3").addEventListener("click",function (e) {
+            $(id+"1").hide();
+            $(id+"2").hide();
+            $(id+"3").show();
+            $(id+"4").hide();
+            document.getElementById("typeAffichage").innerHTML="AFFICHAGE 3";
+
+        })
+
+         document.getElementById("lienMode4").addEventListener("click",function (e) {
+             $(id+"1").hide();
+             $(id+"2").hide();
+             $(id+"3").hide();
+             $(id+"4").show();
+             document.getElementById("typeAffichage").innerHTML="AFFICHAGE 4";
+         })
+    </script>
+
+
+
+

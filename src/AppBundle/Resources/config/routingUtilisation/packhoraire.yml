@@ -1,0 +1,12 @@
+utilisation_packhoraire_getlast:
+    path:     /desk/{desk}/election/{election}/getLast
+    defaults: { _controller: "AppBundle:utilisation/PackHoraire:getLastParticipation" }
+    methods:  [GET, POST]
+
+
+utilisation_packhoraire_edit:
+    path:     /packhoraireEdit/desk/{desk}/election/{election}/nb/{nb}
+    defaults: { _controller: "AppBundle:utilisation/PackHoraire:newNow" }
+    methods:  [GET, POST]
+
+

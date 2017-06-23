@@ -1,0 +1,63 @@
+utilisation_user_action:
+    path:     /actions
+    defaults: { _controller: "AppBundle:utilisation/User:action" }
+    methods:  GET
+
+utilisation_user_action_election:
+    path:     /actions/metaelection/{metaElection}
+    defaults: { _controller: "AppBundle:utilisation/User:action" }
+    methods:  GET
+
+utilisation_user_profile:
+    path:     /profile
+    defaults: { _controller: "AppBundle:utilisation/User:profile" }
+    methods:  GET
+
+utilisation_user_register:
+    path:     /register
+    defaults: { _controller: "AppBundle:Registration:register" }
+    methods:  GET
+
+
+utilisation_user_droits:
+    path:     /role
+    defaults: { _controller: "AppBundle:utilisation/User:manageRight" }
+
+utilisation_user_droits_desk_ajax:
+    path:     /role/manageRight/user/{user}/desk/{desk}
+    defaults: { _controller: "AppBundle:utilisation/User:manageRightDesk" }
+
+utilisation_user_droits_touriste_ajax:
+    path:     /role/manageRight/user/{user}
+    defaults: { _controller: "AppBundle:utilisation/User:manageRightTouriste" }
+
+
+utilisation_user_droits_qg_ajax:
+    path:     /role/manageRight/user/{user}/qg/{qg}
+    defaults: { _controller: "AppBundle:utilisation/User:manageRightQg" }
+
+utilisation_user_droits_townHall_ajax:
+    path:     /role/manageRight/user/{user}/townHall/{townHall}
+    defaults: { _controller: "AppBundle:utilisation/User:manageRightTownHall" }
+
+utilisation_user_droits_desk_remove_ajax:
+    path:     /role/user/manageRight/remove/{user}/desk
+    defaults: { _controller: "AppBundle:utilisation/User:removeRightDesk" }
+
+utilisation_user_droits_qg_remove_ajax:
+    path:     /role/user/manageRight/remove/{user}/qg
+    defaults: { _controller: "AppBundle:utilisation/User:removeRightQg" }
+
+utilisation_user_droits_touriste_remove_ajax:
+    path:     /role/user/manageRight/remove/{user}/touriste
+    defaults: { _controller: "AppBundle:utilisation/User:removeRightTouriste" }
+
+
+utilisation_user_droits_townHall_remove_ajax:
+    path:     /role/user/manageRight/remove/{user}/townHall
+    defaults: { _controller: "AppBundle:utilisation/User:removeRightTownHall" }
+
+
+utilisation_user_droits_user_remove_ajax:
+    path:     /role/user/manageRight/remove/{user}/user
+    defaults: { _controller: "AppBundle:utilisation/User:removeUser" }

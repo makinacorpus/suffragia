@@ -1,0 +1,173 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Mairie
+ *
+ * @ORM\Table(name="mairie")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\MairieRepository")
+ */
+class Mairie
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Qg", mappedBy="id")
+     */
+    private $qg;
+
+    /**
+     * @ORM\ManyToMany("Election")
+     *
+     */
+    private $election;
+    /*
+     * @var string
+     * @ORM\Column(name="logo", type="string", length=255)
+     * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
+     * */
+    private $logo;
+
+
+    /**
+     * @return mixed
+     */
+    public function getCandidat()
+    {
+        return $this->candidat;
+    }
+
+    /**
+     * @param mixed $candidat
+     */
+    public function setCandidat($candidat)
+    {
+        $this->candidat = $candidat;
+    }
+
+    /**
+     * @ORM\ManyToMany("Candidat")
+     *
+     */
+    private $candidat;
+
+
+    /**
+     * @return mixed
+     */
+    public function getElection()
+    {
+        return $this->election;
+    }
+
+    /**
+     * @param mixed $election
+     */
+    public function setElection($election)
+    {
+        $this->election = $election;
+    }
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=255, unique=true)
+     */
+    private $nom;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Group")
+     */
+
+    private $group;
+
+    /**
+     * @return mixed
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * @param mixed $group
+     */
+    public function setGroup($group)
+    {
+        $this->group = $group;
+    }
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set qg
+     *
+     * @param array $qg
+     *
+     * @return Mairie
+     */
+    public function setQg($qg)
+    {
+        $this->qg = $qg;
+
+        return $this;
+    }
+
+    /**
+     * Get qg
+     *
+     * @return array
+     */
+    public function getQg()
+    {
+        return $this->qg;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return Mairie
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    public function __toString()
+    {
+       return $this->getNom();
+    }
+}
+

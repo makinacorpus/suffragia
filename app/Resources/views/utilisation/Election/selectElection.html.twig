@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block head %}
+    <link href="{{ asset('resPerso/css/inputAjax.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block contenu %}
+    {% include ':global:choiceElection.html.twig' with {'elections':elections,'election' : election } %}
+
+
+    <script>
+        var choice_election =  document.getElementById('choice_election');
+        choice_election.addEventListener('change', function (e) {
+            electionId = choice_election.options[choice_election.selectedIndex].value;
+            route = "{{ pathNextStep }}";
+            route = route.replace("election_id", electionId);
+            document.location.href = route;
+        });
+    </script>
+
+{% endblock %}

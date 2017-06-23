@@ -1,0 +1,229 @@
+
+{% extends "base2.html.twig" %}
+{% block head %}
+<style type="text/css">
+    .roundedImage{
+        overflow:hidden;
+        -webkit-border-radius:50px;
+        -moz-border-radius:50px;
+        border-radius:50px;
+        width:90px;
+        height:90px;
+    }
+
+
+
+
+
+</style>
+{% endblock %}
+{%  block contenu %}
+
+    <header>
+        <div class="header-content container">
+                <br><br><br><br>
+            <div class="header-content-inner">
+            <img src="{{ asset('resPerso/img/logoSuffragia/logoVertOrange.svg') }}">
+                <h2><strong>Site de vote de la mairie de {{ townHall }}</strong></h2>
+            </div>
+        </div>
+        <div style="text-align: center;position: absolute;bottom: -40px;left: 50% ">
+            <img class="roundedImage" style="height: 100px;width: 100px;" src="{{ townHall.logo }}">
+        </div>
+
+
+    </header>
+
+
+
+    <section>
+        <div class="container">
+
+            <form class="row" style="text-align: center">
+
+                <div class="col-sm-6 line">
+                    <img src="{{ asset('resPerso/img/integration/ill_camenbert.svg') }}">
+                    <h1 style="color: #F05F40">Voir les votes en détail</h1>
+                    <p>Permet de consulter les votes de votre mairie en temps réel</p>
+                    <button class="btn btn-info btnAccessVoteDetail">Acceder</button>
+                </div>
+
+                <div class="col-sm-6 line">
+                    <img src="{{ asset('resPerso/img/integration/ill_votes.svg') }}">
+                    <h1 style="color: #F05F40">Découvrir la participation</h1>
+                    <p>Permet de consulter la participation en temps réel</p>
+                    <button class="btn btn-info btnAccessParticipationDetail">Acceder</button>
+                </div>
+
+
+            </form>
+        </div>
+<br>
+
+    <section class="bg-primary">
+
+
+
+
+        <div class="container">
+
+            <form class="row">
+
+                <div class="col-sm-5 line">
+                    <label class="sr-only" for="inlineFormInputGroup">Election</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon"><div class="fa fa-calendar"></div></div>
+                        <select class="form-control selectElection" id="inlineFormInputGroup selectElection" placeholder="Username">
+                            {% for election in elections %}
+                                <option value="{{ election.id }}" selected>{{  election.nom }}</option>
+                            {% else %}
+                                <option value="-1" >Il n'y a pas d'élection</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-5 line">
+                    <label class="sr-only" for="inlineFormInputGroup">Mairie</label>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                        <div class="input-group-addon"><div class="fa fa-bank"></div></div>
+                        <select autocomplete="off" class="form-control selectTownHall" id="selectTownHall" name="choixTownHall">
+                            {% for townHall in townHalls %}
+                                <option value="{{ townHall.id }}"  selected="selected">{{  townHall.nom }}</option>
+                            {% else %}
+                                <option value="-1" >Il n'y a pas de mairie</option>
+                            {% endfor%}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <button href="#" class="btn btn-info" id="btnSumbit">Valider</button>
+
+                </div>
+            </form>
+        </div>
+    </section>
+
+<script>
+    var election = document.getElementsByClassName('selectElection')[0];
+    var townHall = document.getElementById('selectTownHall');
+    var btnSumbit = document.getElementById('btnSumbit');
+    var btnAccessVoteDetail = document.getElementsByClassName('btnAccessVoteDetail')[0];
+    var btnAccessParticipationDetail = document.getElementsByClassName('btnAccessParticipationDetail')[0];
+
+    btnAccessVoteDetail.addEventListener('click',function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        route = '{{ path('visiteur_showVoteDetail',{"election":election.id,'townHall':townHall.id,'mode':2}) }}';
+        document.location.href = route;
+    });
+
+    btnAccessParticipationDetail.addEventListener('click',function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        route = '{{ path('visiteur_showParticipation',{"election":election.id,'townHall':townHall.id,'mode':2}) }}';
+        document.location.href = route;
+    });
+
+        btnSumbit.addEventListener('click',function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        route = '{{ path('visiteur_indexSelection',{"election":"election_id",'townHall':'townHall_id'}) }}';
+        if(election.options[election.selectedIndex].value != "-1" && townHall.options[townHall.selectedIndex].value != "-1" ){
+
+            route = route.replace("election_id", election.options[election.selectedIndex].value);
+            route = route.replace("townHall_id", townHall.options[townHall.selectedIndex].value);
+            document.location.href = route;
+            $.ajax({
+                url : route,
+                type : 'GET',
+                dataType : 'html',
+                success : function(code_html, statut){
+                    $(document).find('body').html = $('#body').html($('body').find('#body').html());
+                },
+            });
+
+        }
+        else{
+            bootbox.alert("merci de choisir une élection et une mairie");
+        }
+
+    });
+
+
+</script>
+
+
+
+    <!--
+    <section class="bg-primary" id="about">
+        <form class="form-group">
+            <label for="exampleSelect1">Choisir votre townHall et l'élection pour voir les résultats</label>
+            <select autocomplete="off" class="form-control choixTownHall" id="choixTownHall" name="choixTownHall">
+                <option value="-1" >Choisir une townHall</option>
+
+                {% for townHall in townHalls %}
+                    <option value="{{ townHall.id }}"  selected="selected">{{  townHall.nom }}</option>
+                {% endfor%}
+            </select>
+            <br>
+            <select autocomplete="off" class="form-control choixlection" id="choixElection" name="choixElection">
+                <option value="-1" >Choisir une élection</option>
+
+                {% for election in elections %}
+                    <option value="{{ election.id }}" selected>{{  election.nom }}</option>
+
+                {% endfor %}
+            </select>
+        </form>
+
+
+    </section>
+
+
+    <script>
+
+        document.getElementById('hide').style.visibility='hidden';
+        document.getElementById('choixElection').addEventListener('change', warn2, true);
+        document.getElementById('choixTownHall').addEventListener('change', warn2, true);
+
+        warn2(null);
+
+
+        function warn2(e) {
+            if(e !=null){
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            var route = "{{ path('visiteur_showVoteDetail',{"townHall": "townHall_id","election" : "election_id","mode" : 4}) }}";
+            if( document.getElementById('choixElection').value !=-1 && document.getElementById('choixTownHall').value !=-1 ) {
+                route = route.replace("townHall_id", document.getElementById('choixTownHall').value);
+                route = route.replace("election_id", document.getElementById('choixElection').value);
+                document.getElementById('voteDetail').href = route;
+
+                route = "{{ path('utilisation_packhoraire_voirgraph',{"townHall": "townHall_id","election" : "election_id","mode":2}) }}";
+                route = route.replace("townHall_id", document.getElementById('choixTownHall').value);
+                route = route.replace("election_id", document.getElementById('choixElection').value);
+                document.getElementById('voirParticipation').href = route;
+
+                document.getElementById('hide').style.visibility = 'visible';
+                document.getElementById('hide').style.display = 'block';
+
+
+            }
+            else{
+                document.getElementById('hide').style.visibility = 'hidden';
+                document.getElementById('hide').style.display = 'none';
+
+            }
+            //document.location.href = route;
+        }
+
+
+
+    </script>
+    -->
+
+{% endblock %}

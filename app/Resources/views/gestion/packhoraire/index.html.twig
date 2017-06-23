@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Packhoraires list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Datetime</th>
+                <th>Nbvotant</th>
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for packHoraire in packHoraires %}
+            <tr>
+                <td><a href="{{ path('packhoraire_show', { 'id': packHoraire.id }) }}">{{ packHoraire.dateTime|date("F jS \\a\\t g:ia")}}</a></td>
+                <td>{{ packHoraire.nbVotant }}</td>
+                <td>{{ packHoraire.id }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('packhoraire_show', { 'id': packHoraire.id }) }}">Montrer</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('packhoraire_edit', { 'id': packHoraire.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

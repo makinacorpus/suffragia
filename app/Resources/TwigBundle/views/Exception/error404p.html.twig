@@ -1,0 +1,27 @@
+{# app/Resources/TwigBundle/views/Exception/error404.html.twig #}
+{% extends 'base2.html.twig' %}
+
+{% block body %}
+    <h1>Page not found</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class='error'>
+            <div class="message">
+                <h2>Application Error</h2>
+                <p>Oops! {{ status_text }}</p>
+
+                <h2>Application Error</h2>
+                <p>Oops! {{ status_text }}</p>
+            </div>
+        </div>    {% endif %}
+
+    <p>
+        Il y a une erreur interne ou la page n'existe pas ou ne vous est pas accesible avec ce compte, vous serez redirigé dans quelques secondes
+    </p>
+    <script>
+        setInterval(7,function () {
+            document.location.href = "{{ path('form_login') }}"
+        })
+
+    </script>
+{% endblock %}

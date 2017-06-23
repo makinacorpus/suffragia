@@ -1,0 +1,73 @@
+
+{% extends "base2.html.twig" %}
+
+{%  block contenu %}
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 id="homeHeading">Bienvenue sur votre espace bureau</h1>
+                <hr>
+                <p>Vous pouvez ici rentrer des votes et entrer la participation</p>
+        {% if msg is defined %}
+			{% if couleur is defined %}
+				<div class="alert alert-{{couleur}}">
+					<strong>{{couleur}}</strong> {{msg}}.
+			     </div>
+			{% endif %}
+		{% endif %}     
+                <a href="#services" class="btn btn-primary btn-xl page-scroll">Vos actions</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Vos actions</h2>
+                    <hr class="primary">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box draw" class="draw">
+                        <i class="fa fa-4x fa-diamond text-primary sr-icons"></i>
+                        <a href="{{ path('packvote_new',{id : desk.id}) }}"><h3>Entrer les votes</h3></a>
+                        <p class="text-muted">Durant le dépouillement, vous pouvez rentrer les votes pour chaque candidat ici.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-newspaper-o text-primary sr-icons"></i>
+                        <a href="{{ path('packhoraire_index',{id : desk.id}) }}"><h3>Gerer la Participation</h3></a>
+                        <p class="text-muted">Ici, vous pouvez rentrer la participation pour l'heure en cours et modifier ou supprimer la participation déjà rentrée en cas d'erreur. </p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 text-center">
+                    <div class="service-box">
+                        <i class="fa fa-4x fa-newspaper-o text-primary sr-icons"></i>
+                        <a href="{{ path('desk_newnbInscrit',{id : desk.id}) }}"><h3>Entrer le nombre d'inscrits</h3></a>
+                        <p class="text-muted">Ici, vous pouvez rentrer le nombre d'inscrits dans votre bureau pour le vote</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if msg is defined %}
+			{% if couleur is defined %}
+				<div class="alert alert-{{couleur}}">
+					<strong>{{couleur}}</strong> {{msg}}.
+			     </div>
+			{% endif %}
+		{% endif %}       
+
+		
+    </section>
+    
+    
+    <script>
+
+    </script>
+{% endblock %}

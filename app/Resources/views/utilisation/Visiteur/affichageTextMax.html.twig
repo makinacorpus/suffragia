@@ -1,0 +1,99 @@
+
+
+
+            <table class="table table-hover tableMax viewResult" id="viewResult" >
+                <thead>
+                <tr>
+                    <th><strong>Nom candidat</strong></th>
+                    <th><strong>Total: {{ total }}/{{ totalAttendu }}</strong></th>
+                    <th><strong>%</strong></th>
+
+                    {% for desk in deskx %}
+                        <td><strong>{{ desk.nom}}</strong>
+
+                            {% for detailEB in desk.detailsElectionDesk %}
+                                {% if detailEB.detailElectionTownHall.election.id == election.id %}
+                                    {% if detailEB.state is constant('AppBundle\\Entity\\DetailElectionDesk::STATE_VALID')  %}
+                                        (<i class="fa fa-check-square-o" aria-hidden="true"></i>)
+                                    {% elseif detailEB.state is constant('AppBundle\\Entity\\DetailElectionDesk::STATE_PROGRESS')  %}
+                                        (<i class="fa fa-clock-o" aria-hidden="true"></i>)
+                                    {% elseif detailEB.state is constant('AppBundle\\Entity\\DetailElectionDesk::STATE_CLOSE')  %}
+                                        (<i class="fa fa-close" aria-hidden="true"></i>)
+                                    {% else %}
+                                        ({{detailEB.state}})
+                                    {% endif %}
+
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for candidat in candidats %}
+                    <tr>
+                        {% set tmp =0 %}
+                        <td>
+                        {% if candidat.id != meneur.id %}
+                            <strong>{{ candidat.nom }}</strong>
+                        {% else %}
+                             <span class="fa fa-trophy "><strong>{{ candidat.nom }}</strong></span>
+                        {% endif %}
+
+                        {% if candidat.parti != null %}
+                            <MM style="border-bottom: solid 2px {{ candidat.parti.color }};">{{ candidat.parti.name }}</MM>
+                        {% endif %}
+                        </td>
+                        {% set somme =0 %}
+                        {% for vote in votes %}
+                            {% if vote.candidat.id == candidat.id %}
+                                {% set somme = somme +vote.nbVotes %}
+                            {% endif %}
+                        {% endfor %}
+
+                        <td><strong>{{ somme }} </strong> </td>
+                        {% if not candidat.nul and not candidat.blanc %}
+
+                            {% if total !=0 %}
+                                <td>{{ ((somme/totalValablementExprime)*100)|number_format(2, '.', ',') }}</td>
+                            {% else %}
+                                <td>/</td>
+                            {% endif %}
+                        {% else %}
+                            <td>/</td>
+                        {% endif %}
+
+                        {% for desk in deskx %}
+                            <td>
+                                {% for vote in votes %}
+                                    {% if vote.candidat.id == candidat.id and vote.desk.id == desk.id %}
+                                        {{  vote.nbVotes  }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        {% endfor %}
+
+
+                    </tr>
+
+                {% endfor %}
+
+                <tr>
+                    <td></td>
+                    <td>
+                    </td>
+                    <td></td>
+
+                    {% for desk in deskx %}
+                        <td>
+                            {% if detailElectionDeskService.filterByDesk(electionservice.getDetailsElectionDesk(election),desk) | length >0 %}
+                            {% set detail = detailElectionDeskService.filterByDesk(electionservice.getDetailsElectionDesk(election),desk)[0] %}
+                            {{ packvoteservice.getNbVotesbyDesk(votes,desk) }}/ {{detail.nbSignature}}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+
+                </tbody>
+            </table>
+

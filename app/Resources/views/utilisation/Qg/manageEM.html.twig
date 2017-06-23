@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+{% block head %}
+    <link href="{{ asset('resPerso/css/inputAjax.css')}}" rel="stylesheet">
+    <link href="{{ asset('resPerso/css/espacement.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block contenu %}
+    {% if election != null%}
+        <h1>Choisir l'etat de l election {{ election.name }} pour la mairie {{ townHall.name }}</h1>
+        {% include ':global:choiceState.html.twig' with {'states':detail.getAvailableTypes,"state":detail.state} %}
+
+            <script>
+
+                function ajax (route,element) {
+                    var  DATA="";
+                    $.ajax({
+                        type: "GET",
+                        url: route,
+                        data: DATA,
+                        cache: false,
+                        success: function(data,statut){
+                            document.getElementById(element).value = data[element];
+                        }
+                    })
+                }
+                function ajax2 (route) {
+                    var  DATA="";
+                    $.ajax({
+                        type: "GET",
+                        url: route,
+                        data: DATA,
+                        cache: false,
+                        success: function(data,statut){
+                            alert("Etat enregistré");
+                        }
+                    })
+                }
+
+                var choix_state =  document.getElementById('choix_state');
+
+                var route = "";
+
+                document.getElementById('choice_state').addEventListener('change', choiceState,true);
+                function choiceState(e) {
+
+                    e.preventDefault();
+                    e.stopPropagation();
+                    route = "{{ path('detailEM_state',{"townHall": townHall.id, "election": election.id,"state" : "choix_state"}) }}";
+                    route = route.replace("choix_state", document.getElementById('choice_state').value);
+                    ajax2(route);
+
+
+                };
+
+
+
+            </script>
+
+
+    {% else %}
+        <h1>Il n'y a pas de desk ou d'élection</h1>
+    {% endif %}
+
+{% endblock %}

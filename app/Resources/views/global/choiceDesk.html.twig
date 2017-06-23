@@ -1,0 +1,26 @@
+ <div class="form-group">
+            <label for="label">Choisir le bon bureau</label>
+            <select autocomplete="off" id="choix_deskx" id="choice_desk" class="form-control">
+                <option value="-1" class="choix_deskx choice_desk">Choisir un desk</option>
+                {% for e in deskx %}
+                    {% if desk is defined %}
+                        {% if e.id== desk.id %}
+                            <option value="{{ e.id }}" class="choix_election" selected>{{  e.nom }}</option>
+                        {% else %}
+                            <option value="{{ e.id }}" class="choix_election">{{  e.nom }}</option>
+                        {% endif %}
+                    {% else %}
+                        <option value="{{ e.id }}" class="choix_election">{{  e.nom }}</option>
+                    {% endif %}
+                {% else %}
+                    <h1>Merci de créer un desk</h1>
+                {% endfor %}
+            </select>
+            {% if deskx | length ==0 %}
+                <h1>Pas de desk par ici</h1>
+             {% endif %}
+ </div>
+
+
+
+

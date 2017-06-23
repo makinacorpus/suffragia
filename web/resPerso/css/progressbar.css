@@ -1,0 +1,25 @@
+.tooltip{
+    position:relative;
+    float:right;
+}
+.tooltip > .tooltip-inner {background-color: #eebf3f; padding:5px 15px; color:rgb(23,44,66); font-weight:bold; font-size:13px;}
+.popOver + .tooltip > .tooltip-arrow {	border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid #eebf3f;}
+
+section{
+    margin:100px auto;
+    height:1000px;
+}
+.progress{
+    border-radius:0;
+    overflow:visible;
+}
+.progress-bar{
+    background:rgb(23,44,60);
+    -webkit-transition: width 0s ease-in-out;
+    transition: width 0s ease-in-out;
+}
+.blancNulProgressBar{
+    background:rgb(224,162,42);
+    -webkit-transition: width 0s ease-in-out;
+    transition: width 0s ease-in-out;
+}

@@ -1,0 +1,82 @@
+
+{% extends 'base.html.twig' %}
+{% block head %}
+    <link rel='stylesheet prefetch' href='https://rawgit.com/masayuki0812/c3/master/c3.css'>
+{% endblock %}
+{% block body %}
+
+
+    <!-- Load jQuery from Google's CDN if needed
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+    <script src="https://code.highcharts.com/4.1.8/highcharts.js"></script>
+    <script src="https://code.highcharts.com/4.1.8/modules/exporting.js"></script>
+    <script type="text/javascript">
+        {#{{ chart(chart) }#}
+    </script>
+
+    <div id="linechart" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+
+ -->
+
+    <div class="btn-group">
+        <button type="button" class="form-control btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Type d'affichage
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="{{ path('utilisation_packhoraire_voirgraph',{"townHall":townHall.id,"election":election.id,"mode" : 1}) }}">Mode somme</a></li>
+            <li><a href="{{ path('utilisation_packhoraire_voirgraph',{"townHall":townHall.id,"election":election.id,"mode" : 2}) }}">Mode detaillé</a></li>
+
+        </ul>
+    </div>
+
+    <div id="chart" class="chart">
+    <script src='{{ asset('resPerso/js/c3/c3.min.js') }}'></script>
+        <script src='{{ asset('resPerso/js/d3/d3.min.js') }}'></script>
+    <script>
+
+        var chart = c3.generate({
+            data: {
+                columns: [
+                    {% for desk in deskx %}
+                    {% if loop.last %}
+                    ['{{ desk.nom }}'{{ desk.data }}]
+                    {% else %}
+                    ['{{ desk.nom }}'{{desk.data }}],
+                    {% endif %}
+
+                    {% endfor %}
+                ]
+            },
+            axis: {
+                y: {
+
+                    tick: {
+                        format: d3.format('.0')
+                    }
+                }
+                ,
+                x: {
+                        min: 8
+
+                }
+            }
+        });
+    </script>
+    </div>
+    <p>Axe X : le temps</p>
+    <p>Axe Y : Le nombre de votants</p>
+<script>
+
+    function refresh()
+    {
+
+        var route= '{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : "mode_id" } ) }}';
+        route = route.replace("mode_id", 2);
+        window.location.reload(route);
+    }
+    setInterval(refresh, 90000)
+</script>
+
+
+{% endblock %}

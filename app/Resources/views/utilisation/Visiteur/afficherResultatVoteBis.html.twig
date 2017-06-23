@@ -1,0 +1,477 @@
+
+{% extends 'base.html.twig' %}
+
+{% block head %}
+    <link href="{{ asset('resPerso/css/progressbar.css')}}" rel="stylesheet" type="text/css">
+
+{% endblock %}
+
+{% block body %}
+    {% set authorized = false %}
+    {%  if app.user != null %}
+        {%  if app.user.roles("ROLE_BUREAU","ROLE_ADMIN","ROLE_MAIRIE","ROLE_QG") %}
+            {% set authorized = true %}
+        {% endif %}
+    {% endif %}
+
+    {% if detailEM.state | upper =="terminée" %}
+        {% set authorized = true %}
+    {% endif %}
+
+    {%  if authorized == true %}
+
+        {% set somme =0 %}
+
+        {% set sommeMeneur =0 %}
+        {% set meneur = null %}
+        {% set tmp =0 %}
+
+        {% for candidat in candidats %}
+            {% set tmp =0 %}
+            {% for vote in votes %}
+                {% if vote.candidat.id == candidat.id%}
+                    {% set tmp = tmp + vote.nbVotes %}
+                {% endif %}
+            {% endfor %}
+
+            {% if tmp >= sommeMeneur and not candidat.nul and not candidat.blanc %}
+
+                {% set meneur = candidat %}
+                {% set sommeMeneur = tmp %}
+            {% endif %}
+        {% endfor %}
+
+
+
+        <div class="table-title">
+            <h3>Tableau des votes pour l'élection {{ election }}</h3>
+            <h3>Mairie {{ townHall }}</h3>
+            <div class="btn-group">
+                <button type="button" class="form-control btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Type d'affichage
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : 1 } ) }}">Mode texte</a></li>
+                    <li><a href="{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : 2 } ) }}">Mode texte detaillé</a></li>
+                    <li><a href="{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : 3 } ) }}">Graph</a></li>
+                    <li><a href="{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : 4 } ) }}">Lignes</a></li>
+                </ul>
+            </div>
+
+            <script src='{{ asset('resPerso/js/c3/c3.min.js') }}'></script>
+            <script src='{{ asset('resPerso/js/d3/d3.min.js') }}'></script>
+            <span id="graph" class="graph" hidden>
+
+            <div id="chart"></div>
+
+            <script>
+
+                var chart = c3.generate({
+                    data: {
+                        x: 'x',
+                        columns: [
+                            ['x','{{election.nom}}'],
+                            {% for candidat in candidats %}
+                            {% set somme=0 %}
+                            {% for vote in votes %}
+                            {% if not candidat.nul and not candidat.blanc and vote.candidat.id == candidat.id %}
+                            {% set somme=somme+vote.nbVotes %}
+                            {% endif %}
+                            {% endfor %}
+                            {% if loop.index != candidats | length+1 %}
+                            ['{{ candidat.nom }}',{{ somme }}],
+                            {% else %}
+                            ['{{ candidat.nom }}',{{ somme }}]
+                            {% endif %}
+
+                            {% endfor %}
+                        ],
+                        type: 'bar'
+                    },
+                    bar: {
+                        width: {
+                            ratio: 0.5 // this makes bar width 50% of length between ticks
+                        }
+                        // or
+                        //width: 100 // this makes bar width 100px
+                    },
+                    axis: {x: {type: 'category', show: true}},
+                    labels: true,
+                    tooltip: {
+                        show: true
+                    }
+                });
+            </script>
+        </span>
+
+
+
+
+
+
+            <table class="table table-hover tableMax" id="tableMax" hidden>
+                <thead>
+                <tr>
+                    <th><strong>Nom candidat</strong></th>
+                    <th><strong>Total: {{ total }}/{{ totalAttendu }}</strong></th>
+                    <th><strong>%</strong></th>
+
+                    {% for desk in deskx %}
+                        <td><strong>{{ desk.nom}}</strong>
+
+                            {% for detailEB in desk.detailsElectionDesk %}
+                                {% if detailEB.detailElectionTownHall.election.id == election.id %}
+                                    {% if detailEB.state is constant('AppBundle\\Entity\\DetailElectionDesk::STATE_VALID')  %}
+                                        (<i class="fa fa-check-square-o" aria-hidden="true"></i>)
+                                    {% elseif detailEB.state is constant('AppBundle\\Entity\\DetailElectionDesk::STATE_PROGRESS')  %}
+                                        (<i class="fa fa-clock-o" aria-hidden="true"></i>)
+                                    {% elseif detailEB.state is constant('AppBundle\\Entity\\DetailElectionDesk::STATE_CLOSE')  %}
+                                        (<i class="fa fa-close" aria-hidden="true"></i>)
+                                    {% else %}
+                                        ({{detailEB.state}})
+                                    {% endif %}
+
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for candidat in candidats %}
+                    <tr>
+                        {% set tmp =0 %}
+
+                        {% if candidat != meneur %}
+                            <td><strong>{{ candidat.nom }}</strong></td>
+                        {% else %}
+                            <td>  <span class="fa fa-trophy "><strong>    {{ candidat.nom }}</strong></span></td>
+                        {% endif %}
+
+                        {% set somme =0 %}
+                        {% for vote in votes %}
+                            {% if vote.candidat.id == candidat.id %}
+                                {% set somme = somme +vote.nbVotes %}
+                            {% endif %}
+                        {% endfor %}
+
+                        <td><strong>{{ somme }} </strong> </td>
+                        {% if not candidat.nul and not candidat.blanc %}
+
+                            {% if total !=0 %}
+                                <td>{{ ((somme/totalValablementExprime)*100)|number_format(2, '.', ',') }}</td>
+                            {% else %}
+                                <td>/</td>
+                            {% endif %}
+                        {% else %}
+                            <td>/</td>
+                        {% endif %}
+
+                        {% for desk in deskx %}
+                            <td>
+                                {% for vote in votes %}
+                                    {% if vote.candidat.id == candidat.id and vote.desk.id == desk.id %}
+                                        {{  vote.nbVotes  }}
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        {% endfor %}
+
+
+                    </tr>
+
+                {% endfor %}
+
+                <tr>
+                    <td></td>
+                    <td>
+                    </td>
+                    <td></td>
+
+                    {% for desk in deskx %}
+                        <td>
+                            {% set detail = detailelectiondeskservice.filterByDesk(electionservice.getDetailsElectionDesk(election),desk)[0] %}
+                            {{ packvoteservice.getNbVotesbyDesk(votes,desk) }}/ {{detail.nbSignature}}
+                        </td>
+                    {% endfor %}
+                </tr>
+
+                </tbody>
+            </table>
+
+
+
+            <div id="tableProgressBar" class="tableProgressBar">
+                    <!--<h2 class="text-center">Scroll down the page a bit</h2><br><br> -->
+                <br>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-8 col-lg-8">
+
+                                <div class="barWrapper">
+                                    {% set pourcentTotal =  0  %}
+
+                                    {% for candidat in candidats %}
+                                        {% set tmp =0 %}
+                                        {% for vote in votes %}
+                                            {% if vote.candidat.id == candidat.id %}
+                                                {% set tmp = tmp + vote.nbVotes %}
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {% if totalValablementExprime == 0  %}
+                                            {% set pourcent =  0  %}
+                                        {% else %}
+                                            {% set pourcent =  ((tmp/totalValablementExprime)*100)|number_format(2, '.', ',')  %}
+                                        {% endif %}
+                                        {% if totalNonValablementExprime == 0  %}
+                                            {% set pourcentNonValablementExprime =  0  %}
+                                        {% else %}
+                                            {% set pourcentNonValablementExprime =  ((tmp/totalNonValablementExprime)*100)|number_format(2, '.', ',')  %}
+                                        {% endif %}
+
+                                        {% if totalAttendu == 0  %}
+                                            {% set pourcentTotal =  0  %}
+                                        {% else %}
+                                            {% set pourcentTotal =  ((tmp/totalAttendu)*100)|number_format(2, '.', ',')  %}
+                                        {% endif %}
+
+                                        {% if candidat != meneur %}
+                                             <span class="progressText"><B> {{ candidat.name }}, {{ tmp }} votes</B></span>
+                                        {% else %}
+                                             <span class="progressText"><B><div class="fa fa-trophy "></div>{{ candidat.name }}, {{ tmp }} votes</B></span>
+                                        {% endif %}
+
+                                        <div class="progress">
+                                                {% if candidat.blanc or candidat.nul %}
+                                                    <div class="progress-bar blancNulProgressBar" role="progressbar" aria-valuenow="{{ pourcentNonValablementExprime }}" aria-valuemin="0" aria-valuemax="100" >
+                                                        <span  class="popOver" data-toggle="tooltip" data-placement="top" title="{{ pourcentNonValablementExprime }}%"> </span>
+                                                    </div>
+
+                                                    {% else %}
+                                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ pourcent }}" aria-valuemin="0" aria-valuemax="100" >
+                                                            <span  class="popOver" data-toggle="tooltip" data-placement="top" title="{{ pourcent }}%"> </span>
+                                                        </div>
+                                                 {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                     <span class="progressText"><B> Total / Signature, {{ total }} votes sur {{ totalAttendu }} signature</B></span>
+
+                                    <div class="progress">
+
+                                    <div class="progress-bar progressbarTotal" role="progressbar" aria-valuenow="{{ pourcentTotal }}" aria-valuemin="0" aria-valuemax="100" >
+                                        <span  class="popOver" data-toggle="tooltip" data-placement="top" title="{{ pourcentTotal }}%"> </span>
+                                    </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div class="col-md-2 col-lg-2"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                <style>
+
+                    .tooltip{
+                        position:relative;
+                        float:right;
+                    }
+                    .tooltip > .tooltip-inner {background-color: #eebf3f; padding:5px 15px; color:rgb(23,44,66); font-weight:bold; font-size:13px;}
+                    .popOver + .tooltip > .tooltip-arrow {	border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid #eebf3f;}
+
+                    section{
+                        margin:100px auto;
+                        height:1000px;
+                    }
+                    .progress{
+                        border-radius:0;
+                        overflow:visible;
+                    }
+                    .progress-bar{
+                        background: rgb(15, 54, 66);
+                        -webkit-transition: width 0s ease-in-out;
+                        transition: width 0s ease-in-out;
+                    }
+                    .blancNulProgressBar{
+                        background:rgb(224,162,42);
+                        -webkit-transition: width 0s ease-in-out;
+                        transition: width 0s ease-in-out;
+                    }
+                    .progressbarTotal{
+                        background: rgb(8, 100, 95);
+                        -webkit-transition: width 0s ease-in-out;
+                        transition: width 0s ease-in-out;
+                    }
+                </style>
+
+                <script>
+
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip({trigger: 'manual'}).tooltip('show');
+                    });
+
+                    // $( window ).scroll(function() {
+                    // if($( window ).scrollTop() > 10){  // scroll down abit and get the action
+                    $(".progress-bar").each(function(){
+                        each_bar_width = $(this).attr('aria-valuenow');
+                        $(this).width(each_bar_width + '%');
+                    });
+
+                    //  }
+                    // });
+                </script>
+
+            </div>
+            <script src="{{ asset('resPerso/js/progressbar.js') }}"></script>
+
+
+            <table id="tableMin" class="table table-condensed tableMin" hidden>
+
+
+                <thead>
+                <tr>
+                    <th>Liste des candidats</th>
+                    <th>Voix ({{ total }} / {{ totalAttendu }})</th>
+                    <th>%</th>
+
+                    {% for candidat in candidats %}
+                <tr>
+                    {% set somme =0 %}
+
+                    {% set tmp =0 %}
+
+                    <td>
+                        {% if candidat != meneur %}
+                            <strong>{{ candidat.nom }}</strong>
+                        {% else %}
+                            <span class="fa fa-trophy"><strong>{{ candidat.nom }}</strong></span>
+                        {% endif %}
+
+                    </td>
+                    {% for vote in votes %}
+                        {% if vote.candidat == candidat%}
+                            {% set somme = somme +vote.nbVotes %}
+                        {% endif %}
+                    {% endfor %}
+                    <td><strong>{{ somme }} </strong>
+                        {% if not candidat.nul and not candidat.blanc %}
+                        {% if total !=0 %}
+                    <td>{{ ((somme/totalValablementExprime)*100)|number_format(2, '.', ',')  }}</td>
+                {% else %}
+                    <td> / </td>
+                    {% endif %}
+                {% else %}
+                    <td> / </td>
+                    {% endif %}
+
+
+
+                </tr>
+                {% endfor %}
+
+            </table>
+
+
+
+
+
+
+
+
+        </div>
+
+        <script>
+
+            {% if mode is defined %}
+            var numMode={{ mode }};
+            $(".tableMin").hide();
+            $(".graph").hide();
+            $(".tableMax").hide();
+            $(".tableProgressBar").hide();
+
+            if(numMode ==1){
+                $(".tableMin").show();
+            }
+            if(numMode ==2){
+                $(".tableMax").show();
+            }
+            if(numMode ==3){
+                $(".graph").show();
+            }
+            if(numMode ==4){
+                $(".tableProgressBar").show();
+            }
+            {% endif %}
+
+
+            function refresh()
+            {
+
+                var route= '{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : "mode_id" } ) }}';
+                route = route.replace("mode_id", numMode);
+                //var divMin = $(document).find("tableMin").html;
+
+                $.ajax({
+
+                    url : route,
+
+                    type : 'GET',
+
+                    dataType : 'html',
+
+                    success : function(code_html, statut){ // success est toujours en place, bien sûr !
+                        $(document).find('tableMin').html = $('#tableMin').html($(code_html).find('#tableMin').html());
+                        $(document).find('tableMax').html = $('#tableMax').html($(code_html).find('#tableMax').html());
+                        $(document).find('graph').html = $('#graph').html($(code_html).find('#graph').html());
+                        $(document).find('tableProgressBar').html = $('#tableProgressBar').html($(code_html).find('#tableProgressBar').html());
+
+
+                        // javascript:document.open('text/html');document.write(code_html);document.close();
+                    },
+                });
+            }
+
+
+        </script>
+        <script>
+            setInterval(refresh, 6000)    </script>
+        <p>site : {{absolute_url('/')}}</p>
+
+    {% else %}
+        <h1>Les résultats ne sont pas encore disponibles pour le public</h1>
+    {% endif %}
+    <!--
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.1.135/jspdf.min.js"></script>
+    <script type="text/javascript" src="http://cdn.uriit.ru/jsPDF/libs/adler32cs.js/adler32cs.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2014-11-29/FileSaver.min.js
+"></script>
+    <script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.addimage.js"></script>
+    <script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.standard_fonts_metrics.js"></script>
+    <script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.split_text_to_size.js"></script>
+    <script type="text/javascript" src="http://cdn.immex1.com/js/jspdf/plugins/jspdf.plugin.from_html.js"></script>
+    <a id="exportPdf">Exporter cette page en pdf</a>
+
+    <script>
+    $(function () {
+
+        var specialElementHandlers = {
+            '#exportPdf': function (element,renderer) {
+                return true;
+            }
+        };
+        $('#exportPdf').click(function () {
+            var doc = new jsPDF();
+            doc.fromHTML($('tableMax').html(), 15, 15, {
+                'width': 170,'elementHandlers': specialElementHandlers
+            });
+            doc.save('sample-file.pdf');
+        });
+    });
+
+</script>
+-->
+
+{% endblock %}

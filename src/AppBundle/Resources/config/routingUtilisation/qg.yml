@@ -1,0 +1,14 @@
+qg_utilisation_index:
+    path:     /{id}
+    defaults: { _controller: "AppBundle:utilisation/Qg:index" }
+    methods:  GET
+
+
+qg_utilisation_validVote:
+    path:     /validVote/qg/{qg}/election/{election}
+    defaults: { _controller: "AppBundle:utilisation/Qg:validVote" }
+
+qg_utilisation_validVoteElection:
+    path:     /validVote2/qg/{qg}/election/{election}/desk/{desk}
+    defaults: { _controller: "AppBundle:utilisation/Qg:validVote" }
+

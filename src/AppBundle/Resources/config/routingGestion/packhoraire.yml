@@ -1,0 +1,22 @@
+packhoraire_index:
+    path:     /
+    defaults: { _controller: "AppBundle:gestion/PackHoraire:index" }
+    methods:  GET
+
+packhoraire_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:gestion/PackHoraire:show" }
+    methods:  GET
+
+
+
+packhoraire_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:gestion/PackHoraire:edit" }
+    methods:  [GET, POST]
+
+packhoraire_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:gestion/PackHoraire:delete" }
+    methods:  DELETE
+

@@ -1,0 +1,35 @@
+detailEB_nbInscrit:
+    path:     /nbInscrit/desk/{desk}/election/{election}/nbinscrit/{nbinscrit}
+    defaults: { _controller: "AppBundle:utilisation/DetailElectionDesk:newNbInscrit" }
+
+detailEB_nbSignature:
+    path:     /nbSignature/desk/{desk}/election/{election}/nbSignature/{nbsignature}
+    defaults: { _controller: "AppBundle:utilisation/DetailElectionDesk:newNbSignature" }
+
+
+
+detailEB_getNbInscrit:
+    path:     /getNbInscrit/desk/{desk}/election/{election}/
+    defaults: { _controller: "AppBundle:utilisation/DetailElectionDesk:getNbInscrit" }
+
+detailEB_getNbSignature:
+    path:     /getNbSignature/desk/{desk}/election/{election}
+    defaults: { _controller: "AppBundle:utilisation/DetailElectionDesk:getNbSignature" }
+
+detailEB_requestValid:
+    path:     /requestValid/desk/{desk}/election/{election}
+    defaults: { _controller: "AppBundle:utilisation/DetailElectionDesk:requestValid" }
+
+detailEB_state:
+    path:     /etat/desk/{desk}/election/{election}/state/{state}
+    defaults: { _controller: "AppBundle:utilisation/DetailElectionDesk:newEtat" }
+
+detailEB_getJsonPackHundred:
+    path:     /getJsonPackHundred/packHundred/{detailEB}
+    defaults: { _controller: "AppBundle:utilisation/DetailElectionDesk:getJsonPackHundred" }
+
+
+detailEB_getJsonPackHundredIndex:
+    path:     /getJsonPackHundred/packHundred/{detailEB}/index/{index}
+    defaults: { _controller: "AppBundle:utilisation/DetailElectionDesk:getJsonPackHundred" }
+

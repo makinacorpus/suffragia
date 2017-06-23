@@ -1,0 +1,243 @@
+
+{% extends "base2.html.twig" %}
+{% block head %}
+<style>
+
+    #mouse-scroll {
+        position: fixed;
+        margin: auto;
+        left: 50%;
+        bottom: 30px;
+        -webkit-transform: translateX(-50%);
+        z-index: 9999;
+    }
+    #mouse-scroll .mouse {
+        height: 21px;
+        width: 14px;
+        border-radius: 10px;
+        -webkit-transform: none;
+        -ms-transform: none;
+        transform: none;
+        border: 2px solid #ffffff;
+        top: 170px;
+    }
+    #mouse-scroll .mouse-in {
+        height: 5px;
+        width: 2px;
+        display: block;
+        margin: 5px auto;
+        background: #ffffff;
+        position: relative;
+        -webkit-animation: animated-mouse 1.2s ease infinite;
+    }
+    #mouse-scroll .down-arrow-1,
+    #mouse-scroll .down-arrow-2,
+    #mouse-scroll .down-arrow-3 {
+        -webkit-animation: mouse-scroll 1s infinite;
+        -moz-animation: mouse-scroll 1s infinite;
+    }
+    #mouse-scroll .down-arrow-1 {
+        margin-top: 6px;
+    }
+    #mouse-scroll .down-arrow-2 {
+        -webkit-animation-delay: .2s;
+        -moz-animation-delay: .2s;
+        -webkit-animation-direction: alternate;
+    }
+    #mouse-scroll .down-arrow-3 {
+        -webkit-animation-delay: .3s;
+        -moz-animation-dekay: .3s;
+        -webkit-animation-direction: alternate;
+    }
+    #mouse-scroll span {
+        display: block;
+        width: 5px;
+        height: 5px;
+        -ms-transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+        transform: rotate(45deg);
+        border-right: 2px solid #fff;
+        border-bottom: 2px solid #fff;
+        margin: 0 0 3px 5px;
+    }
+
+
+    @-webkit-keyframes animated-mouse {
+        0% {
+            opacity: 1;
+            -webkit-transform: translateY(0);
+            -ms-transform: translateY(0);
+            transform: translateY(0);
+        }
+        100% {
+            opacity: 0;
+            -webkit-transform: translateY(6px);
+            -ms-transform: translateY(6px);
+            transform: translateY(6px);
+        }
+    }
+
+    @-webkit-keyframes mouse-scroll {
+        0% {
+            opacity: 1;
+        }
+        50% {
+            opacity: .5;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    @keyframes mouse-scroll {
+        0% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 0.5;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+</style>
+{% endblock %}
+{%  block contenu %}
+
+
+
+
+
+
+    <script>
+        if("{{ msg }}" != ""){
+            bootbox.alert("{{ msg }}");
+        }
+    </script>
+
+
+
+    <header>
+        <div class="header-content container">
+                <br><br><br><br>
+            <div class="header-content-inner">
+            <img src="{{ asset('resPerso/img/logoSuffragia/logoVertOrange.svg') }}">
+                <h2><strong>le site de votre mairie</strong></h2>
+            </div>
+        </div>
+    </header>
+
+
+
+
+<section class="bg-primary">
+    <div class="container">
+
+        <form class="row">
+
+            <div class="col-sm-5 line">
+                <label class="sr-only" for="inlineFormInputGroup">Election</label>
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon"><div class="fa fa-calendar"></div></div>
+                    <select class="form-control selectElection" id="inlineFormInputGroup selectElection" placeholder="Username">
+                        {% for election in elections %}
+                            <option value="{{ election.id }}" selected>{{  election.nom }}</option>
+                        {% else %}
+                            <option value="-1" >Il n'y a pas d'élection</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm-5">
+                <label class="sr-only" for="inlineFormInputGroup">Mairie</label>
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon"><div class="fa fa-bank"></div></div>
+                    <select autocomplete="off" class="form-control selectTownHall" id="selectTownHall" name="choixTownHall">
+                        {% for townHall in townHalls %}
+                            <option value="{{ townHall.id }}"  selected="selected">{{  townHall.nom }}</option>
+                        {% else %}
+                            <option value="-1" >Il n'y a pas de mairie</option>
+                        {% endfor%}
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm-2">
+                <button href="#" class="btn btn-info ri ripplelink" id="btnSumbit">Valider</button>
+
+            </div>
+        </form>
+    </div>
+    <div id="mouse-scroll">
+        <div class="mouse">
+            <div class="mouse-in"></div>
+        </div>
+        <div>
+            <span class="down-arrow-1"></span>
+            <span class="down-arrow-2"></span>
+            <span class="down-arrow-3"></span>
+        </div>
+    </div>
+</section>
+</section>
+
+
+<section>
+    <div class="container">
+
+        <form class="row" style="text-align: center">
+
+            <div class="col-sm-6 line">
+                <img src="{{ asset('resPerso/img/integration/ill_why.svg') }}">
+                <h1 style="color: #F05F40">Pourquoi suffragia ?</h1>
+                <p class="text-fuchsia">Suffragia, site réalisé par l'entreprise Makina-Corpus,
+                    permet aujourd’hui de
+                    comptabiliser les votes, de suivre la participation, d'afficher les
+                    résultats, d'archiver et exporter les données dans un format ouvert (open data)
+                    . Cela permet de
+                    réduire le temps de dépouillement, de limiter le risque d'erreur, de partager l'information le plus tôt
+                    possible les résultats, et également de
+                    réaliser des analyses statistiques simples</p>
+            </div>
+
+            <div class="col-sm-6 line">
+                <img src="{{ asset('resPerso/img/integration/ill_what.svg') }}">
+                <h1 style="color: #F05F40">Comment ça marche ?</h1>
+
+                <p class="text-fuchsia">Pour son fonctionnement le site requiert au moins une personne (scrutateur supplémentaire) par desk. Ce scrutateur muni d’une tablette ou d’un ordinateur entre les votes associés à chaque candidat au fur et à mesure du dépouillement à l’aide des boutons plus et moins. Il lui est aussi possible de rentrer le nombre de votants, information qui lui permet de voir l’avancement du dépouillement et de constater l’exactitude des résultats.</p>
+            </div>
+        </form>
+    </div>
+
+</section>
+    <script>
+        var election = document.getElementsByClassName('selectElection')[0];
+        var townHall = document.getElementById('selectTownHall');
+        var btnSumbit = document.getElementById('btnSumbit');
+        btnSumbit.addEventListener('click',function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            route = '{{ path('visiteur_indexSelection',{"election":"election_id",'townHall':'townHall_id'}) }}';
+            if(election.options[election.selectedIndex].value != "-1" && townHall.options[townHall.selectedIndex].value != "-1" ){
+
+                route = route.replace("election_id", election.options[election.selectedIndex].value);
+                route = route.replace("townHall_id", townHall.options[townHall.selectedIndex].value);
+                document.location.href = route;
+                $.ajax({
+                    url : route,
+                    type : 'GET',
+                    dataType : 'html',
+                    success : function(code_html, statut){
+                        $(document).find('body').html = $('#body').html($('body').find('#body').html());
+                    },
+                });
+            }
+            else{
+                bootbox.alert("merci de choisir une élection et une mairie");
+            }
+
+        });
+    </script>
+
+{% endblock %}

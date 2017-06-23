@@ -1,0 +1,24 @@
+metaelection_index:
+    path:     /
+    defaults: { _controller: "AppBundle:gestion/MetaElection:index" }
+    methods:  GET
+
+metaelection_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:gestion/MetaElection:show" }
+    methods:  GET
+
+metaelection_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:gestion/MetaElection:new" }
+    methods:  [GET, POST]
+
+metaelection_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:gestion/MetaElection:edit" }
+    methods:  [GET, POST]
+
+metaelection_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:gestion/MetaElection:delete" }
+    methods:  DELETE

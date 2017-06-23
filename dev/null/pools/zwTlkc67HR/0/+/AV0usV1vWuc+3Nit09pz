@@ -1,0 +1,4 @@
+<?php return array (
+  0 => 9223372036854775807,
+  1 => 'a:2:{i:0;O:63:"Sensio\\Bundle\\FrameworkExtraBundle\\Configuration\\ParamConverter":5:{s:7:"' . "\0" . '*' . "\0" . 'name";s:6:"mairie";s:8:"' . "\0" . '*' . "\0" . 'class";s:16:"AppBundle:Mairie";s:10:"' . "\0" . '*' . "\0" . 'options";a:2:{i:0;s:6:"mairie";i:1;s:2:"id";}s:11:"' . "\0" . '*' . "\0" . 'optional";b:0;s:12:"' . "\0" . '*' . "\0" . 'converter";N;}i:1;O:63:"Sensio\\Bundle\\FrameworkExtraBundle\\Configuration\\ParamConverter":5:{s:7:"' . "\0" . '*' . "\0" . 'name";s:8:"election";s:8:"' . "\0" . '*' . "\0" . 'class";s:18:"AppBundle:Election";s:10:"' . "\0" . '*' . "\0" . 'options";a:2:{i:0;s:8:"election";i:1;s:2:"id";}s:11:"' . "\0" . '*' . "\0" . 'optional";b:0;s:12:"' . "\0" . '*' . "\0" . 'converter";N;}}',
+);

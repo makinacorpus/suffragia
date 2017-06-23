@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Qgs list</h1>
+
+    <table class="table table-condensed">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Localisation</th>
+                <th>TownHall</th>
+                <th>Deskx</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for qg in qgs %}
+            <tr>
+                <td><a href="{{ path('qg_show', { 'id': qg.id }) }}">{{ qg.id }}</a></td>
+                <td>{{ qg.nom }}</td>
+                <td>{{ qg.localisation }}</td>
+                <td>{{ qg.townHall }}</td>
+                <td>{{ qg.deskx | join(',') }}</td>
+
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('qg_show', { 'id': qg.id }) }}">Montrer</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('qg_edit', { 'id': qg.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('qg_new') }}">Creer un nouveau QG</a>
+        </li>
+    </ul>
+{% endblock %}

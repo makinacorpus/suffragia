@@ -1,0 +1,32 @@
+
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.37.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.37.0/mapbox-gl.css' rel='stylesheet' />
+  <link href='{{ asset('map/electionmap.js/map.css') }}' rel='stylesheet' />
+  <script src='{{ asset('map/electionmap.js/node_modules/tinyqueue/index.js') }}'></script>
+
+  <script src='{{ asset('map/electionmap.js/node_modules/@mapbox/polylabel/polylabel.js') }}'></script>
+  <script src='{{ asset('map/electionmap.js/map_draw_desk.js') }}'></script>
+
+  <div id="" class="">
+
+
+    <div id='map' style='width: 100%; height: 1000px;'>    <div id="general">Chargement...</div>
+    </div>
+    <script>
+
+
+
+
+        createWholeMap(
+            '{{ asset('map/electionmap.js/bv_fontenilles_2017_4326.geojson') }}',
+            '{{ path('detailEM_JSON_BRUT',{"election":election.id,"townHall": townHall.id}) }}',
+            '{{ path('detailEM_JSON_BRUT',{"election":election.id,"townHall": townHall.id}) }}'
+        )
+
+
+
+    </script>
+
+  </div>
+
+

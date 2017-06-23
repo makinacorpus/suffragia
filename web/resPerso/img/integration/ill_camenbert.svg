@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="140px" height="140px" viewBox="0 0 140 140" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <title>ill_camenbert</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="70" cy="71" r="70"></circle>
+        <linearGradient x1="31.525431%" y1="17.1572843%" x2="56.9886513%" y2="57.2519084%" id="linearGradient-3">
+            <stop stop-color="#3E3D2A" stop-opacity="0.3" offset="0%"></stop>
+            <stop stop-color="#3E3D2A" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <radialGradient cx="46.7610467%" cy="63.2959783%" fx="46.7610467%" fy="63.2959783%" r="24.7436147%" gradientTransform="translate(0.467610,0.632960),scale(0.868587,1.000000),rotate(-136.769048),scale(1.000000,2.168929),translate(-0.467610,-0.632960)" id="radialGradient-4">
+            <stop stop-color="#373624" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#373624" stop-opacity="0.5" offset="100%"></stop>
+        </radialGradient>
+        <path d="M6.54296875,30.3779297 C24.5361328,16.7089844 37.2705078,13.4443359 52.4355469,10.0800781 C59.1250479,8.59605913 77.1090192,45.612322 73.5170931,41.3883429 C69.076004,36.1657783 62.4571528,32.8525391 55.0644531,32.8525391 C41.6925822,32.8525391 30.8525391,43.6925822 30.8525391,57.0644531 C30.8525391,61.1572498 31.8680556,65.0128599 33.6608613,68.3930559 C37.7254601,76.056542 -0.420015029,35.6675299 6.54296875,30.3779297 Z" id="path-5"></path>
+        <radialGradient cx="39.1032225%" cy="81.4235514%" fx="39.1032225%" fy="81.4235514%" r="29.7055838%" gradientTransform="translate(0.391032,0.814236),scale(0.930017,1.000000),rotate(85.465083),scale(1.000000,2.256007),translate(-0.391032,-0.814236)" id="radialGradient-7">
+            <stop stop-color="#373624" stop-opacity="0.5" offset="0%"></stop>
+            <stop stop-color="#373624" stop-opacity="0" offset="100%"></stop>
+        </radialGradient>
+        <path d="M55.0644531,108 C83.1953789,108 106,85.1953789 106,57.0644531 C106,43.4289155 99.2742353,28.1363319 90.5488281,18.9941406 C81.273201,9.27544707 83.5188157,26.9047773 82.3779297,40.2900391 C79.6269531,72.5654297 67.2900391,78.1171875 43.9638672,81.4130859 C34.9740734,82.6833092 3.93113502,71.0965391 7.58007812,78.1171875 C16.0656818,94.4436793 35.3926936,108 55.0644531,108 Z" id="path-8"></path>
+        <path d="M51.0644531,102 C22.9335274,102 0.12890625,79.1953789 0.12890625,51.0644531 C0.12890625,22.9335274 22.9335274,0.12890625 51.0644531,0.12890625 C79.1953789,0.12890625 102,22.9335274 102,51.0644531 C102,79.1953789 79.1953789,102 51.0644531,102 Z M51.0644531,75.2763672 C64.436324,75.2763672 75.2763672,64.436324 75.2763672,51.0644531 C75.2763672,37.6925822 64.436324,26.8525391 51.0644531,26.8525391 C37.6925822,26.8525391 26.8525391,37.6925822 26.8525391,51.0644531 C26.8525391,64.436324 37.6925822,75.2763672 51.0644531,75.2763672 Z" id="path-9"></path>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="ill_camenbert">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Mask" fill="#E2E1D0" xlink:href="#path-1"></use>
+            <g id="Path-2-+-Path-2-+-Path-2-+-Path-2-+-Path-2-Mask" mask="url(#mask-2)">
+                <g transform="translate(18.000000, 21.000000)">
+                    <polygon id="Rectangle-4-Copy-3" stroke="none" fill="url(#linearGradient-3)" fill-rule="evenodd" points="8.06591797 79.5004883 35.2519531 33.7675781 86.3925781 15 148.194336 92.4199219 73.097168 161.857422"></polygon>
+                    <mask id="mask-6" fill="white">
+                        <use xlink:href="#path-5"></use>
+                    </mask>
+                    <g id="Mask" stroke="none" fill="none" fill-rule="evenodd">
+                        <use fill="#A99B87" xlink:href="#path-5"></use>
+                        <use fill="url(#radialGradient-4)" xlink:href="#path-5"></use>
+                    </g>
+                    <g id="Oval-4" stroke="none" fill="none" fill-rule="evenodd">
+                        <use fill="#A99B87" xlink:href="#path-8"></use>
+                        <use fill="url(#radialGradient-7)" xlink:href="#path-8"></use>
+                    </g>
+                    <mask id="mask-10" fill="white">
+                        <use xlink:href="#path-9"></use>
+                    </mask>
+                    <use id="Mask" stroke="none" fill="#D8D8D8" fill-rule="evenodd" xlink:href="#path-9"></use>
+                    <polygon id="Path-2" stroke="none" fill="#3E3D2A" fill-rule="evenodd" mask="url(#mask-10)" points="51.8408203 -3.21679688 51.8408203 48.9369073 0.650390625 67.6103516 -8.86621094 9.82226562"></polygon>
+                    <polygon id="Path-2" stroke="none" fill="#A99B87" fill-rule="evenodd" mask="url(#mask-10)" points="51.8408203 -3.21679688 51.8408203 48.9369073 86.8046875 3.09667969 103.380859 10.4228516"></polygon>
+                    <polygon id="Path-2" stroke="none" fill="#FFFFFF" fill-rule="evenodd" mask="url(#mask-10)" points="102.150391 18.7900391 51.8408203 48.9369073 86.8046875 3.09667969 103.380859 10.4228516"></polygon>
+                    <polygon id="Path-2" stroke="none" fill="#F65C3B" fill-rule="evenodd" mask="url(#mask-10)" points="102.150391 18.7900391 51.8408203 48.9369073 114.12793 33.7099609 103.380859 10.4228516"></polygon>
+                    <polygon id="Path-2" stroke="none" fill="#3E3D2A" fill-rule="evenodd" mask="url(#mask-10)" points="109.334961 34.3457031 51.8408203 48.9369073 110.438477 46.1425781 103.380859 10.4228516"></polygon>
+                    <polygon id="Path-2" stroke="none" fill="#A99B87" fill-rule="evenodd" mask="url(#mask-10)" points="110.543945 45.9921875 51.8408203 48.9369073 106.412109 81.6669922 103.380859 10.4228516"></polygon>
+                    <polygon id="Path-2" stroke="none" fill="#FFFFFF" fill-rule="evenodd" mask="url(#mask-10)" points="24.5537109 111.104492 51.8408203 48.9369073 108.542969 81.1281216 98.7451172 94.5390625"></polygon>
+                    <polygon id="Path-2" stroke="none" fill="#F65C3B" fill-rule="evenodd" mask="url(#mask-10)" points="24.3759766 109.833984 51.8408203 48.9369073 0.650390625 67.6103516 -3.08886719 88.2900391"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

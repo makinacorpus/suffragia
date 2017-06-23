@@ -1,0 +1,28 @@
+<div class="form-group">
+            <label for="label">Choisir la bonne election</label>
+            <select autocomplete="off" id="choice_election" class="form-control">
+                <option value="-1" class="choice_election">Choisir une election</option>
+
+                {% for e in elections %}
+                    {% if election is defined %}
+                        {% if e== election %}
+                            <option value="{{ e.id }}" class="choix_election" selected>{{  e.nom }}</option>
+                        {% else %}
+                            <option value="{{ e.id }}" class="choix_election">{{  e.nom }}</option>
+                        {% endif %}
+                    {% else %}
+                        <option value="{{ e.id }}" class="choix_election">{{  e.nom }}</option>
+                    {% endif %}
+                {% else %}
+                    <h1>Merci de créer une élection</h1>
+                {% endfor %}
+
+            </select>
+    {% if elections | length ==0 %}
+    <h1>Pas d'election par ici</h1>
+    {% endif %}
+ </div>
+
+
+
+

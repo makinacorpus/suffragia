@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Partis list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Couleur</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for parti in partis %}
+            <tr>
+                <td><a href="{{ path('parti_show', { 'id': parti.id }) }}">{{ parti.id }}</a></td>
+                <td>{{ parti.name }}</td>
+                <td>{{ parti.color }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('parti_show', { 'id': parti.id }) }}">Montrer</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('parti_edit', { 'id': parti.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('parti_new') }}">Creer un nouveau parti</a>
+        </li>
+        <li>
+            <a href="{{ path('parti_RemoveAll') }}">supprimer les partis inutiles</a>
+        </li>
+    </ul>
+{% endblock %}

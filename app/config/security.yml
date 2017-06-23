@@ -1,0 +1,55 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/security.html
+# app/config/security.yml
+security:
+    access_denied_url: /login
+    acl:
+        connection: default
+    encoders:
+        FOS\UserBundle\Model\UserInterface: bcrypt
+
+    role_hierarchy:
+        ROLE_MEMBRE: IS_AUTHENTICATED_ANONYMOUSLY
+        ROLE_BUREAU: [ROLE_BUREAU]
+        ROLE_QG: [ROLE_QG]
+        ROLE_MAIRIE: [ROLE_MAIRIE]
+        ROLE_ADMIN: [ROLE_ADMIN]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN]
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_token_generator: security.csrf.token_manager
+                # if you are using Symfony < 2.8, use the following config instead:
+                # csrf_provider: form.csrf_provider
+                always_use_default_target_path: false
+                default_target_path:            /user/actions
+            logout:       true
+            anonymous:    true
+    access_control:
+        - { path: ^/gestion/candidat, role: [ROLE_ADMIN] }
+        - { path: ^/gestion/election, role: [ROLE_ADMIN] }
+        - { path: ^/gestion/metaElection, role: [ROLE_ADMIN] }
+        - { path: ^/gestion/townHall, role: [ROLE_ADMIN] }
+        - { path: ^/gestion/qg, role: [ROLE_MAIRIE] }
+        - { path: ^/gestion/desk, role: [ROLE_QG] }
+        - { path: ^/user/role, role: [ROLE_QG,ROLE_MAIRIE,ROLE_ADMIN] }
+        - { path: ^/user/register, role: [ROLE_MAIRIE] }
+        - { path: ^/user/townHall, role: [ROLE_MAIRIE] }
+        - { path: ^/detailElectionTownHall, role: [ROLE_MAIRIE] }
+
+        #- { path: ^/vote/packvote, role: [ROLE_QG,ROLE_BUREAU] }
+       # - { path: ^/visiteur/showVoteDetail, role: [ROLE_QG,ROLE_MAIRIE,ROLE_BUREAU,ROLE_TOURISTE] }
+
+
+
+
+
+

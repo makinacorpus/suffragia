@@ -1,0 +1,24 @@
+desk_index:
+    path:     /
+    defaults: { _controller: "AppBundle:gestion/Desk:index" }
+    methods:  GET
+
+desk_show:
+    path:     /{id}/show
+    defaults: { _controller: "AppBundle:gestion/Desk:show" }
+    methods:  GET
+
+desk_new:
+    path:     /new
+    defaults: { _controller: "AppBundle:gestion/Desk:new" }
+    methods:  [GET, POST]
+
+desk_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "AppBundle:gestion/Desk:edit" }
+    methods:  [GET, POST]
+
+desk_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "AppBundle:gestion/Desk:delete" }
+    methods:  DELETE

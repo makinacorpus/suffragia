@@ -1,0 +1,58 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+    AppBundle:
+        class: AppBundle\Service\ElectionService
+        arguments: []
+    PackHoraireService:
+        class: AppBundle\Service\PackHoraireService
+        arguments: []
+    PackVoteService:
+        class: AppBundle\Service\PackVoteService
+        arguments: []
+    TownHallService:
+        class: AppBundle\Service\TownHallService
+        arguments: ['@doctrine.orm.entity_manager']
+    ElectionService:
+        class: AppBundle\Service\ElectionService
+        arguments: ["@TownHallService",'@doctrine.orm.entity_manager']
+
+    MetaElectionService:
+        class: AppBundle\Service\MetaElectionService
+        arguments: []
+    CandidatService:
+        class: AppBundle\Service\CandidatService
+        arguments: []
+
+
+    DetailElectionDeskService:
+        class: AppBundle\Service\DetailElectionDeskService
+        arguments: ["@PackVoteService","@deskservice","@PackHoraireService","@ElectionService"]
+
+    DetailElectionBureauService:
+        class: AppBundle\Service\DetailElectionDeskService
+        arguments: ["@PackVoteService","@deskservice","@PackHoraireService","@ElectionService"]
+    DetailElectionTownHallService:
+        class: AppBundle\Service\DetailElectionTownHallService
+        arguments: ['@doctrine.orm.entity_manager',"@ElectionService","@PackVoteService","@PackHoraireService","@DetailElectionDeskService","@TownHallService","@CandidatService"]
+
+    SecurityService:
+        class: AppBundle\Service\SecurityService
+        arguments: []
+    FactoryService:
+        class: AppBundle\Service\FactoryService
+        arguments: ["@doctrine.orm.entity_manager","@ElectionService"]
+
+    SimpleFactoryService:
+        class: AppBundle\Service\SimpleFactoryService
+        arguments: ["@doctrine.orm.entity_manager","@ElectionService"]
+
+    UserService:
+        class: AppBundle\Service\UserService
+        arguments: ["@doctrine.orm.entity_manager"]
+    DeskService:
+        class: AppBundle\Service\DeskService
+        arguments: ["@doctrine.orm.entity_manager"]

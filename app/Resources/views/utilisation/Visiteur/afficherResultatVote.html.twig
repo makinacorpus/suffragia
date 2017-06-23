@@ -1,0 +1,114 @@
+
+{% extends 'base.html.twig' %}
+
+{% block head %}
+    <link href="{{ asset('resPerso/css/progressbar.css')}}" rel="stylesheet" type="text/css">
+
+{% endblock %}
+
+{% block bodyNoContainer %}
+
+
+
+    {%  if authorized == true %}
+
+        {% set somme =0 %}
+
+        {% set sommeMeneur =0 %}
+        {% set meneur = null %}
+        {% set tmp =0 %}
+
+        {% for candidat in candidats %}
+            {% set tmp =0 %}
+            {% for vote in votes %}
+                {% if vote.candidat.id == candidat.id%}
+                    {% set tmp = tmp + vote.nbVotes %}
+                {% endif %}
+            {% endfor %}
+
+            {% if tmp >= sommeMeneur and not candidat.nul and not candidat.blanc %}
+
+                {% set meneur = candidat %}
+                {% set sommeMeneur = tmp %}
+            {% endif %}
+        {% endfor %}
+
+
+
+        <div class="table-title container">
+            <div class="container">
+                <h3>Tableau des votes pour l'élection {{ election }}</h3>
+                <h3>Mairie {{ townHall }}</h3>
+                <div class="btn-group">
+                    <button type="button" class="form-control btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Type d'affichage
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : 1 } ) }}">Mode texte</a></li>
+                        <li><a href="{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : 2 } ) }}">Mode texte detaillé</a></li>
+                        <li><a href="{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : 3 } ) }}">Graph</a></li>
+                        <li><a href="{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : 4 } ) }}">Lignes</a></li>
+                        <li><a href="{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : 5 } ) }}">Donut</a></li>
+                        <li><a href="{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : 6 } ) }}">Map</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="chart"></div>
+            {% if mode is not defined %}
+                {% set mode = 2 %}
+            {% endif %}
+
+            <div class="container">
+                {% if mode ==1 %}
+                    {% include ':utilisation/Visiteur:affichageTextMin.html.twig' %}
+                {% elseif mode ==2 %}
+                    {% include ':utilisation/Visiteur:affichageTextMax.html.twig' %}
+                {% elseif mode ==3 %}
+                    {% include ':utilisation/Visiteur:affichageGraph.html.twig' %}
+                {% elseif mode ==4 %}
+                    {% include ':utilisation/Visiteur:afficherProgress.html.twig'%}
+                {% elseif mode ==5 %}
+                    {% include ':utilisation/Visiteur:affichageDonut.html.twig' %}
+                {% endif %}
+            </div>
+            <p>site : {{absolute_url('/')}}</p>
+
+        </div>
+        {% if mode ==6 %}
+            <script src='{{ asset('resPerso/js/c3/c3.min.js') }}'></script>
+            <script src='{{ asset('resPerso/js/d3/d3.min.js') }}'></script>
+
+            <script src='{{ asset('resPerso/js/c3/c3.min.js') }}'></script>
+            <script src='{{ asset('resPerso/js/d3/d3.min.js') }}'></script>
+            {% include ':utilisation/Visiteur:affichageMap.html.twig' %}
+        {% endif %}
+
+        <script>
+
+            function refresh()
+            {
+                var route= '{{ path('visiteur_showVoteDetail',{'townHall': townHall.id,"election" : election.id,"mode" : "mode_id" } ) }}';
+                route = route.replace("mode_id",{{ mode }});
+                $.ajax({
+                    url : route,
+                    type : 'GET',
+                    dataType : 'html',
+                    success : function(code_html, statut){ // success est toujours en place, bien sûr !
+                        $(document).find('#viewResult').html = $('#viewResult').html($(code_html).find('#viewResult').html());
+                    },
+
+                });
+            }
+        </script>
+        <script>
+            setInterval(refresh, 6000)
+            //
+
+
+        </script>
+
+    {% else %}
+        <h1>Les résultats ne sont pas encore disponibles pour le public</h1>
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,26 @@
+
+<div class="form-group">
+            <label for="label">Choisir la bonne mairie</label>
+            <select autocomplete="off" id="choice_election" class="form-control">
+                <option value="-1" class="choice_election">Choisir une mairie</option>
+
+                {% for e in townHalls %}
+                    {% if townHall is defined %}
+                        {% if e== townHall %}
+                            <option value="{{ e.id }}" class="choix_election" selected>{{  e.nom }}</option>
+                        {% else %}
+                            <option value="{{ e.id }}" class="choix_election">{{  e.nom }}</option>
+                        {% endif %}
+                    {% else %}
+                        <option value="{{ e.id }}" class="choix_election">{{  e.nom }}</option>
+                    {% endif %}
+                {% else %}
+                    <h1>Merci de créer une townHall</h1>
+                {% endfor %}
+
+            </select>
+ </div>
+
+
+
+

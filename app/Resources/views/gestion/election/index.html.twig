@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Elections list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Id</th>
+                <th>Actions</th>
+                <th>Finished</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for election in elections %}
+            <tr>
+                <td><a href="{{ path('election_show', { 'id': election.id }) }}">{{ election.name }}</a></td>
+                <td>{{ election.type }}</td>
+                <td>{{ election.id }}</td>
+                <td>{% if election.finished %}Yes{% else %}No{% endif %}</td>
+            </td>
+
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('election_show', { 'id': election.id }) }}">Montrer</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('election_edit', { 'id': election.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('election_new') }}">Cree un(e)election</a>
+        </li>
+    </ul>
+{% endblock %}

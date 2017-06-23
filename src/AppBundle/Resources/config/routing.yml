@@ -1,0 +1,76 @@
+
+
+app_gestion_metaElection:
+    resource: "@AppBundle/Resources/config/routingGestion/metaelection.yml"
+    prefix:   /gestion/metaElection
+
+app_gestion_candidat:
+    resource: "@AppBundle/Resources/config/routingGestion/candidat.yml"
+    prefix:   /gestion/candidat
+
+app_gestion_townHall:
+    resource: "@AppBundle/Resources/config/routingGestion/townHall.yml"
+    prefix:   /gestion/townHall
+
+app_gestion_election:
+    resource: "@AppBundle/Resources/config/routingGestion/election.yml"
+    prefix:   /gestion/election
+
+app_gestion_qg:
+    resource: "@AppBundle/Resources/config/routingGestion/qg.yml"
+    prefix:   /gestion/qg
+
+app_gestion_desk:
+    resource: "@AppBundle/Resources/config/routingGestion/desk.yml"
+    prefix:   /gestion/desk
+
+app_gestion_parti:
+    resource: "@AppBundle/Resources/config/routingGestion/parti.yml"
+    prefix:   /gestion/parti
+
+
+app_utilisation_qg:
+    resource: "@AppBundle/Resources/config/routingUtilisation/qg.yml"
+    prefix:   /qg
+
+app_utilisation_packhoraire:
+    resource: "@AppBundle/Resources/config/routingUtilisation/packhoraire.yml"
+    prefix:   /utilisation/packhoraire
+
+
+
+app_gestion_packhoraire:
+    resource: "@AppBundle/Resources/config/routingGestion/packhoraire.yml"
+    prefix:   /gestion/packhoraire
+
+app_utilisation_vote:
+    resource: "@AppBundle/Resources/config/routingUtilisation/packvote.yml"
+    prefix:   /utilisation/vote
+
+app_utilisation_detailElectionDesk:
+    resource: "@AppBundle/Resources/config/routingUtilisation/detailElectionDesk.yml"
+    prefix:   /detailElectionDesk
+
+app_utilisation_detailElectionTownHall:
+    resource: "@AppBundle/Resources/config/routingUtilisation/detailElectionTownHall.yml"
+    prefix:   /detailElectionTownHall
+app_visiteur:
+    resource: "@AppBundle/Resources/config/routingUtilisation/visiteur.yml"
+    prefix:   /visiteur
+
+app_parti:
+    resource: "@AppBundle/Resources/config/routingGestion/parti.yml"
+    prefix:   /gestion/parti
+
+app_user:
+    resource: "@AppBundle/Resources/config/routingUtilisation/user.yml"
+    prefix:   /user
+
+
+app_export:
+    resource: "@AppBundle/Resources/config/routingUtilisation/export.yml"
+    prefix:   /export
+
+app_homepage:
+    path:     /
+    defaults: { _controller: AppBundle:Default:index }

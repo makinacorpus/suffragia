@@ -1,0 +1,29 @@
+
+
+townHall_utilisation_csv:
+    path:     /csv/townHall/{townHall}/election/{election}
+    defaults: { _controller: "AppBundle:utilisation/Export:csv" }
+
+townHall_utilisation_excel:
+    path:     /excel/townHall/{townHall}/election/{election}
+    defaults: { _controller: "AppBundle:utilisation/Export:excel" }
+
+townHall_utilisation_json:
+    path:      /json/townHall/{townHall}/election/{election}
+    defaults: { _controller: "AppBundle:utilisation/Export:json" }
+
+townHall_utilisation_pdf:
+    path:      /pdf/townHall/{townHall}/election/{election}
+    defaults: { _controller: "AppBundle:utilisation/Export:pdf" }
+
+
+detailEM_JSON_BRUT:
+    path:     /jsonBrut/townhall/{townHall}/election/{election}
+    defaults: { _controller: "AppBundle:utilisation/Export:jsonBrut" }
+
+
+
+visiteur_showVoteDetailhtml:
+  path:     /showVoteDetailHtml/{townHall}/election/{election}
+  defaults: { _controller: "AppBundle:utilisation/Export:html" }
+  methods:  GET

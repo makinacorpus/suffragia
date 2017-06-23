@@ -1,0 +1,15 @@
+
+appBundle:
+    resource: "@AppBundle/Resources/config/routing.yml"
+    prefix:   /
+    schemes: [http]
+
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+    schemes: [http]
+
+
+fos_user_registration_confirmed:
+    path: /users/actions
+    defaults: { _controller: "AppBundle:utilisation/User:index" }

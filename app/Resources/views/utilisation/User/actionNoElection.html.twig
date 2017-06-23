@@ -1,0 +1,98 @@
+
+
+
+    {% if user.townHalls |length >0 %}
+        <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box">
+                <i class="fa fa-4x fa-diamond text-primary sr-icons"></i>
+                <a href="{{ path('qg_index') }}"><h3>Gerer les QG</h3></a>
+                <p class="text-muted">Gerer des QG</p>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box">
+                <i class="fa fa-4x fa-diamond text-primary sr-icons"></i>
+                <a href="{{ path('utilisation_user_register') }}"><h3>Creer un utilisateur</h3></a>
+                <p class="text-muted">Creer un utilisateur</p>
+            </div>
+        </div>
+
+    {% endif %}
+
+
+    <!--Action pour le role_QG-->
+    {% if user.qgs |length >0 %}
+        <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box">
+                <i class="fa fa-4x fa-newspaper-o text-primary sr-icons"></i>
+                <a href="{{ path('desk_index',{id : user.qgs[0].id}) }}"><h3>Gestion des bureaux</h3></a>
+                <p class="text-muted">Permet de voir, ajouter, modifier et supprimer des bureaux.</p>
+            </div>
+        </div>
+
+    {% endif %}
+
+    {% if user.townHalls |length >0 or user.qgs | length or is_granted('ROLE_ADMIN') %}
+
+        <!--Action pour le role_QG et ROLE_MAIRiE-->
+
+        <div class="col-lg-3 col-md-6 text-center">
+            <div class="service-box">
+                <i class="fa fa-4x fa-newspaper-o text-primary sr-icons"></i>
+                <a href="{{ path('utilisation_user_droits',{id : 0}) }}"><h3>Gerer les roles des personnes</h3></a>
+                <p class="text-muted">Permet d'inscrire des personnes et de leur attribuer un role</p>
+            </div>
+        </div>
+    {% endif %}
+
+
+        {% if is_granted('ROLE_ADMIN') %}
+
+            <!--Action pour le role_QG et ROLE_MAIRiE-->
+
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-star text-primary sr-icons"></i>
+                    <a href="{{ path('metaelection_index',{id : 0}) }}"><h3>Gerer une metaElection</h3></a>
+                    <p class="text-muted">Permet de crée une meta Election</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-star text-primary sr-icons"></i>
+                    <a href="{{ path('election_index',{id : 0}) }}"><h3>Gerer une election</h3></a>
+                    <p class="text-muted">Permet de crée une Election</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-star text-primary sr-icons"></i>
+                    <a href="{{ path('townHall_index',{id : 0}) }}"><h3>Gestion des mairies</h3></a>
+                    <p class="text-muted">Permet de voir, ajouter, modifier et supprimer des bureaux.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-star text-primary sr-icons"></i>
+                    <a href="{{ path('candidat_index',{id : 0}) }}"><h3>Gestion des candidats</h3></a>
+                    <p class="text-muted">Permet de voir, ajouter, modifier et supprimer des bureaux.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 text-center">
+                <div class="service-box">
+                    <i class="fa fa-4x fa-star text-primary sr-icons"></i>
+                    <a href="{{ path('parti_index',{id : 0}) }}"><h3>Gestion des partis</h3></a>
+                    <p class="text-muted">Permet de voir, ajouter, modifier et supprimer des partis.</p>
+                </div>
+            </div>
+        {% endif %}
+
+
+
+
+
+    {% if user.townHalls |length == 0 and user.qgs |length == 0 and user.deskx |length == 0  and not is_granted('ROLE_ADMIN') %}
+        <h1>Vous n'avez aucune actions disponible</h1>
+    {% endif %}

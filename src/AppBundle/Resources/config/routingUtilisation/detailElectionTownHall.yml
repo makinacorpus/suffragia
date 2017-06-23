@@ -1,0 +1,9 @@
+
+
+detailEM_state:
+    path:     /stateEm/townHall/{townHall}/election/{election}/state/{state}
+    defaults: { _controller: "AppBundle:utilisation/DetailElectionTownHall:newState" }
+
+qg_utilisation_manageVote:
+    path:     /managerVote/townhall/{townHall}/election/{election}
+    defaults: { _controller: "AppBundle:utilisation/DetailElectionTownHall:newStateForm" }

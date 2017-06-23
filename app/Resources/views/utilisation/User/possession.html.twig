@@ -1,0 +1,63 @@
+
+{% extends "base2.html.twig" %}
+
+{%  block contenu %}
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 id="homeHeading">Bienvenue sur votre espace</h1>
+
+        {% if msg is defined %}
+			{% if couleur is defined %}
+				<div class="alert alert-{{couleur}}">
+					<strong>{{couleur}}</strong> {{msg}}.
+			     </div>
+			{% endif %}
+		{% endif %}     
+                <a href="#services" class="btn btn-primary btn-xl page-scroll">Vos actions</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Vos actions</h2>
+                    <hr class="primary">
+                </div>
+            </div>
+        </div>
+
+        {% for townHall in app.user.townHalls %}
+         <h1>townHall:{{ townHall.nom }},{{ townHall.id }}</h1>
+        {% endfor %}
+
+        {% for qg in app.user.qgs %}
+            <h1>QG: {{ qg.nom }},{{ qg.id }}</h1>
+        {% endfor %}
+
+        {% for desk in app.user.deskx %}
+          <h1>Desk:{{ desk.nom }},{{ desk.id }}</h1>
+
+        {% endfor %}
+
+
+
+
+
+    </section>
+
+    <!--
+    <script>
+        document.getElementById('choixDesk').addEventListener('change', warn, true);
+        function warn(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var route = "{{ path('desk_utilisation_index_desk',{"desk": "desk_id"}) }}";
+            route = route.replace("desk_id", e.currentTarget.value);
+            document.location.href = route;
+        }
+    </script>
+    -->
+{% endblock %}

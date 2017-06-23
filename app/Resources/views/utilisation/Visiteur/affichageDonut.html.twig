@@ -1,0 +1,72 @@
+
+
+
+<script src='{{ asset('resPerso/js/c3/c3.min.js') }}'></script>
+<script src='{{ asset('resPerso/js/d3/d3.min.js') }}'></script>
+
+<script src='{{ asset('resPerso/js/c3/c3.min.js') }}'></script>
+<script src='{{ asset('resPerso/js/d3/d3.min.js') }}'></script>
+<span id="viewResult" class="viewResult">
+
+<script type="text/javascript">
+
+     function showDonut() {
+        var chart = c3.generate({
+            data: {
+                columns: [
+                    {% for candidat in candidats %}
+                    {% set somme=0 %}
+                    {% for vote in votes %}
+                    {% if not candidat.nul and not candidat.blanc and vote.candidat.id == candidat.id %}
+                    {% set somme=somme+vote.nbVotes %}
+                    {% endif %}
+                    {% endfor %}
+                    {% if loop.index != candidats | length+1 %}
+                    ['{{ candidat.id }}',{{ somme }}],
+                    {% else %}
+                    ['{{ candidat.nom }}',{{ somme }}]
+                    {% endif %}
+
+                    {% endfor %}
+
+                ],
+                type : 'donut',
+                names: {
+                    {% for candidat in candidats %}
+                      {% if loop.index !=  candidats| length %}
+                    '{{ candidat.id }}': '{{ candidat.name }}, {{ candidat.parti }}, ',
+                        {% else %}
+                    '{{ candidat.id }}': '{{ candidat.name }}, {{ candidat.parti }}, '
+                        {% endif %}
+                    {% endfor %}
+                },
+
+                colors: {
+                    {% for candidat in candidats %}
+         {% if candidat.parti != null %}
+                        {% if loop.index !=  candidats| length %}
+                        '{{ candidat.id }}': '{{ candidat.parti.color }}',
+                        {% else %}
+                        '{{ candidat.id }}': '{{ candidat.parti.color }}'
+                        {% endif %}
+         {% endif %}
+                    {% endfor %}
+                },
+
+                onclick: function (d, i) { console.log("onclick", d, i); },
+                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+                onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+            },
+        color: function (color, d) {
+            // d will be 'id' when called for legends
+            return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
+        },
+            donut: {
+                title: "{{ election.name }}"
+            }
+        });
+    }
+showDonut();
+
+</script>
+</span>

@@ -1,0 +1,45 @@
+
+            <table id="viewResult" class="table table-responsive tableMin viewResult" >
+
+
+                <thead>
+                <tr>
+                    <th>Liste des candidats</th>
+                    <th>Voix ({{ total }} / {{ totalAttendu }})</th>
+                    <th>%</th>
+                    {% for candidat in candidats %}
+                <tr>
+                    {% set somme =0 %}
+                    {% set tmp =0 %}
+                    <td>
+                        {% if candidat.id != meneur.id %}
+                            <strong>{{ candidat.nom }}</strong>
+                        {% else %}
+                            <span class="fa fa-trophy"><strong>{{ candidat.nom }}</strong></span>
+                        {% endif %}
+                        {% if candidat.parti != null %}
+                            <MM style="border-bottom: solid 2px {{ candidat.parti.color }};">{{ candidat.parti.name }}</MM>
+                        {% endif %}
+                    </td>
+                        {% for vote in votes %}
+                            {% if vote.candidat.id == candidat.id %}
+                                {% set somme = somme +vote.nbVotes %}
+                            {% endif %}
+                        {% endfor %}
+                    <td>
+                        <strong>{{ somme }} </strong>
+                        {% if not candidat.nul and not candidat.blanc %}
+                            {% if total !=0 %}
+                                <td>{{ ((somme/totalValablementExprime)*100)|number_format(2, '.', ',')  }}</td>
+                             {% else %}
+                                 <td> / </td>
+                            {% endif %}
+                        {% else %}
+                            <td> / </td>
+                         {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+
+
+

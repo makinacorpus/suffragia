@@ -1,0 +1,27 @@
+{% extends "base2.html.twig" %}
+
+{% block head2 %}
+<style>
+
+    .navbar-default {
+        background-color: rgba(163, 177, 178, 1);
+
+        border-color: rgba(255, 255, 255, 0.3);
+    }
+
+</style>
+{%  endblock %}
+
+{% block contenu0 %}
+    <br><br><br><br>
+    <div class="container">
+
+    {% block contenu %}
+    {% endblock %}
+    {% block body %}
+    {% endblock %}
+    </div>
+    {% block bodyNoContainer %}
+    {% endblock %}
+{% endblock %}
+

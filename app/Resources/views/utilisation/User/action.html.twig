@@ -1,0 +1,51 @@
+
+{% extends "base.html.twig" %}
+
+{%  block contenu %}
+
+
+    {% if msg is defined %}
+        {% if msg != "" %}
+        <script>
+            bootbox.alert("{{ msg }}")
+        </script>
+            {% endif %}
+{% endif %}
+
+    <section id="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Vos actions</h2>
+                    <hr class="primary">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                {% include ':utilisation/User:actionElection.html.twig' with {'election' : election , "metaElections" : metaElections} %}
+
+            </div>
+
+            <hr>
+            <div class="row">
+                {% include ':utilisation/User:actionNoElection.html.twig' with {} %}
+
+            </div>
+
+
+        </div>
+
+        {% if msg is defined %}
+            {% if couleur is defined %}
+                <div class="alert alert-{{couleur}}">
+                    <strong>{{couleur}}</strong> {{msg}}.
+                </div>
+            {% endif %}
+        {% endif %}
+
+
+    </section>
+
+
+{% endblock %}

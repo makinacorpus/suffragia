@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Metaelections list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for metaElection in metaElections %}
+            <tr>
+                <td><a href="{{ path('metaelection_show', { 'id': metaElection.id }) }}">{{ metaElection.id }}</a></td>
+                <td><a href="{{ path('metaelection_show', { 'id': metaElection.id }) }}">{{ metaElection.name }}</a></td>
+                <td>{% if metaElection.date %}{{ metaElection.date|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ metaElection.type }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('metaelection_show', { 'id': metaElection.id }) }}">Montrer</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('metaelection_edit', { 'id': metaElection.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('metaelection_new') }}">Cree un(e)metaElection</a>
+        </li>
+    </ul>
+{% endblock %}
